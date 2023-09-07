@@ -1,0 +1,166 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>ARduck - Sign Up!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth/style.css') }}">
+
+</head>
+
+<body> <!-- partial:index.partial.html -->
+
+    <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+        <div class="signin">
+
+            <div class="content">
+
+                <h2>Sign Up</h2>
+
+                <div class="form">
+
+                    <div class="inputBox">
+
+                        <input type="text" id="nomeInput" required> <i>Nome</i>
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="text" id="emailInput" required> <i>Email</i>
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="password" id="passwordInput" required> <i>Password</i>
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="password" id="passwordConfirmInput" required> <i>Confirm Password</i>
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="text" id="turmaInput" required> <i>Qual código da sua turma?</i>
+
+                    </div>
+
+                    <div class="links"><a>Já tem conta?<a><a href="/login">Login</a>
+
+                    </div>
+
+                    <div class="inputBox">
+                        <input type="submit" value="Sign Up" onclick="submitForm()">>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section> <!-- partial -->
+    <script>
+        function submitForm() {
+            var nome = document.getElementById("nomeInput").value;
+            var email = document.getElementById("emailInput").value;
+            var password = document.getElementById("passwordInput").value;
+            var confirmPassword = document.getElementById("passwordConfirmInput").value;
+            var turma = document.getElementById("turmaInput").value;
+
+            // Verificar se os campos obrigatórios estão preenchidos
+            if (nome === "" || email === "" || password === "" || confirmPassword === "") {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                return;
+            }
+
+            // Verificar se a senha e a confirmação de senha coincidem
+            if (password !== confirmPassword) {
+                alert("As senhas não coincidem. Por favor, verifique.");
+                return;
+            }
+
+            var formData = {
+                nome: nome,
+                email: email,
+                password: password,
+                turma: turma,
+                privilegio: "professor"
+            };
+
+            var jsonFormData = JSON.stringify(formData);
+
+            var xhr = new XMLHttpRequest();
+            var currentURL = window.location.href; // Get the current URL
+            xhr.open("POST", currentURL, true); // Send data to the same URL
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Handle successful response
+                    } else {
+                        // Handle error response
+                        alert("Error submitting form data");
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(formData));
+            xhr.onload = function () {
+                var jsonResult = JSON.parse(xhr.response);
+                if (jsonResult.create) {
+                    window.location.href = "/login";
+                }
+                else if (jsonResult.Retorno == "Email já criado"){
+                    alert("Email em uso!")                    
+                }
+                else{
+                    alert("Não logado: " + jsonResult.Retorno)
+                }
+            };
+        }
+
+    </script>
+
+</body>
+
+</html>

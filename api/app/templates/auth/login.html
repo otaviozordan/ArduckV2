@@ -1,0 +1,129 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>ARduck - Sign In!</title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth/style.css') }}">
+
+</head>
+
+<body> <!-- partial:index.partial.html -->
+
+    <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        <span></span> <span></span> <span></span> <span></span> <span></span>
+
+        <div class="signin">
+
+            <div class="content">
+
+                <h2>Sign In</h2>
+
+                <div class="form">
+
+                    <div class="inputBox">
+
+                        <input type="text" id="emailInput" required> <i>Email</i>
+
+                    </div>
+
+                    <div class="inputBox">
+
+                        <input type="password" id="passwordInput" required> <i>Password</i>
+
+                    </div>
+
+                    <div class="links"> <a href="#">Forgot Password</a> <a href="/signup">Signup</a>
+
+                    </div>
+                    <div class="inputBox">
+                        <input type="submit" value="Login" onclick="submitForm()">>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section> <!-- partial -->
+    <script>
+        function submitForm() {
+            var email = document.getElementById("emailInput").value;
+            var password = document.getElementById("passwordInput").value;
+
+            var formData = {
+                email: email,
+                password: password
+            };
+
+            var jsonFormData = JSON.stringify(formData);
+
+            // You can use this JSON string (jsonFormData) to send to a server or perform other actions
+            //console.log(jsonFormData);
+
+            var xhr = new XMLHttpRequest();
+            var currentURL = window.location.href; // Get the current URL
+            xhr.open("POST", currentURL, true); // Send data to the same URL
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Handle successful response
+                    } else {
+                        // Handle error response
+                        alert("Error submitting form data");
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(formData));
+            xhr.onload = function () {
+                var jsonResult = JSON.parse(xhr.response);
+                if (jsonResult.login){
+                    window.location.href = "/home";
+                }
+                else{
+                    alert("Não logado: " + jsonResult.mensagem)
+                }
+            };
+        }
+
+    </script>
+
+</body>
+
+</html>
