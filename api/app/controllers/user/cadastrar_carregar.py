@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, flash, Response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from validate_email_address import validate_email
-from app.models.userModel import Usuario, email_existe, listar_usuarios, listar_usuarios_por_turma
+from app.models.userModel import *
 from app.models.trilhaModel import *
 from app.controllers import authenticate
 import json
@@ -66,10 +66,12 @@ def signup():
         #Sincroniza permissoes das trilhas existentes dependendo se a trilha tem progressivo
         colecoes = listar_nomes_colecoes_por_turma(turma=turma)
         for colecao in colecoes:
-            trilhas = load_trilhas_por_colecao(turma=turma, colecao=colecao)
-            for trilha in trilhas:
-                print(tri)
-                if trilha['opitions']['progressivo']:
+            trilhas = listar_trilhas_por_colecao(turma=turma, colecao=colecao)
+            for trilha_nome in trilhas:
+                trilha_obj = load_trilha_por_colecao_nome(current_user.turma, colecao=colecao, nome=trilha_nome)
+                trilha_obj.syncprogresso(usuario=usuario.email)
+
+                if trilha_obj.progressivo:
                     trilha_obj.syncpermissoes(usuario=email, habilitado=False)
                 else:
                     trilha_obj.syncpermissoes(usuario=email, habilitado=True)
@@ -84,8 +86,8 @@ def signup():
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
 
-@app.route('/buscarusuarios_turma_usuario', methods=['GET'])
-def buscarusuarios_turma():
+@app.route('/listarusuarios_turma_usuario', methods=['GET'])
+def listarusuarios_turma_usuario():
     auth = authenticate('log')
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
@@ -94,7 +96,17 @@ def buscarusuarios_turma():
     usuarios = listar_usuarios_por_turma(turma=turma)
     return Response(json.dumps({'usuarios':usuarios}), status=200, mimetype="application/json")
 
-@app.route('/buscarusuarios', methods=['GET'])
-def buscarusuarios():
+@app.route('/listarusuarios', methods=['GET'])
+def listarusuarios():
     usuarios = listar_usuarios()
+    return Response(json.dumps({'usuarios':usuarios}), status=200, mimetype="application/json")
+
+@app.route('/buscarusuarios_turma_usuario', methods=['GET'])
+def buscarusuarios_turma_usuario():
+    auth = authenticate('log')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+    
+    turma = current_user.turma
+    usuarios = buscar_usuarios_por_turma(turma=turma)
     return Response(json.dumps({'usuarios':usuarios}), status=200, mimetype="application/json")

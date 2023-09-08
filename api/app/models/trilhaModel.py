@@ -13,7 +13,7 @@ from jsonschema import validate, ValidationError
 #                'ordem':1,
 #                'img_path':'/path',
 #                'decricao':'Seja bem vindo ao ARduck, aqui você aprende de verdade. Essa trilha sumirá quando você criar outra.',
-#                'opitions':{
+#                'options':{
 #                    'quiz':[
 #                        {
 #                            'pergunta 1':'Quem é mais bonito',
@@ -70,8 +70,8 @@ class Trilha():
         self.parametros = {
             'ordem':ordem,
             'img_path':img_path,
-            'decricao': descricao,
-            'opitions':{
+            'descricao': descricao,
+            'options':{
                 'quiz':quiz,
                 'teoria':teoria,
                 'ar':ar,
@@ -88,7 +88,7 @@ class Trilha():
             "ordem": {"type": "integer"},
             "img_path": {"type": "string"},
             "descricao": {"type": "string"},
-            "opitions": {
+            "options": {
                 "type": "object",
                 "properties": {
                     "quiz": {"type": "array"},
@@ -101,7 +101,7 @@ class Trilha():
             },
             "autor": {"type": "string"}
         },
-        "required": ["ordem", "img_path", "descricao", "opitions", "autor"]
+        "required": ["ordem", "img_path", "descricao", "options", "autor"]
     }
 
 
@@ -191,20 +191,99 @@ class Trilha():
         except Exception as e:
             erro_msg("Erro ao sincronizar trilhas para o usuário", e)
 
+    def syncprogresso(self, usuario):
+            try:
+                # Consulta o documento de permissões do usuário
+                progresso_usuario = mongoDB.Progresso.find_one({"usuario": usuario})
+
+                if not progresso_usuario:
+                    # Se o documento de permissões não existir, crie-o com uma estrutura vazia para permissões
+                    progresso_usuario = {
+                        "usuario": usuario,
+                        "turma":self.turma,
+                        "progresso": {}
+                    }
+
+                # Crie uma estrutura de permissões para a turma se não existir
+                if self.turma not in progresso_usuario["progresso"]:
+                    progresso_usuario["progresso"][self.turma] = {}
+
+                # Crie uma estrutura de permissões para a coleção se não existir
+                if self.colecao not in progresso_usuario["progresso"][self.turma]:
+                    progresso_usuario["progresso"][self.turma][self.colecao] = {}
+
+                # Atualize as permissões do usuário com as trilhas sincronizadas
+                opcoes = self.parametros['options']
+
+                progresso = {
+                    'ar': False,
+                    'validacao_pratica': False,
+                    'teoria': False,
+                    'quiz': [False] * len(opcoes['quiz'])  # Inicialize a lista com valores False
+                }
+
+                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = progresso
+
+                # Atualize ou insira o documento de progresso no banco de dados
+                mongoDB.Progresso.update_one(
+                    {"usuario": usuario},
+                    {"$set": {"progresso": progresso_usuario["progresso"]}},
+                    upsert=True  # Insere um novo documento se não existir
+                )
+
+            except Exception as e:
+                erro_msg("Erro ao sincronizar progresso para o usuário", e)
+
+    def setprogresso(self, usuario, elemento):
+        try:
+            # Consulta o documento de progresso do usuário
+            progresso_usuario = mongoDB.Progresso.find_one({"usuario": usuario})
+
+            if not progresso_usuario:
+                # Se o documento de progresso não existir, crie-o com uma estrutura vazia para progresso
+                progresso_usuario = {
+                    "usuario": usuario,
+                    "turma": self.turma,
+                    "progresso": {}
+                }
+
+            # Crie uma estrutura de progresso para a turma se não existir
+            if self.turma not in progresso_usuario["progresso"]:
+                progresso_usuario["progresso"][self.turma] = {}
+
+            # Crie uma estrutura de progresso para a coleção se não existir
+            if self.colecao not in progresso_usuario["progresso"][self.turma]:
+                progresso_usuario["progresso"][self.turma][self.colecao] = {}
+
+            # Verifique se já existe um documento de progresso para a trilha
+            if self.nome not in progresso_usuario["progresso"][self.turma][self.colecao]:
+                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = {}  # Crie a estrutura vazia
+
+            # Atualize o elemento específico para True
+            elemento = "quiz"  # Substitua por seu elemento específico
+            progresso_usuario["progresso"][self.turma][self.colecao][self.nome][elemento] = True
+
+            # Atualize ou insira o documento de progresso no banco de dados
+            mongoDB.Progresso.update_one(
+                {"usuario": usuario},
+                {"$set": {"progresso": progresso_usuario["progresso"]}},
+                upsert=True  # Insere um novo documento se não existir
+            )
+
+        except Exception as e:
+            erro_msg("Erro ao sincronizar progresso para o usuário", e)
+
 def load_trilha_por_colecao_nome(turma, colecao, nome):
     try:
         # Busca a trilha no banco de dados
         trilha_data = mongoDB.Trilhas.find_one(
             {
-                turma: {
-                    colecao: {
-                        nome: {
-                            "$exists": True
-                        }
-                    }
+                turma+'.'+colecao+'.'+nome:{
+                    "$exists": True
                 }
             }
         )
+
         if trilha_data:
             # Se a trilha existe no banco de dados, crie uma instância da classe Trilha
             trilha = Trilha(
@@ -214,11 +293,11 @@ def load_trilha_por_colecao_nome(turma, colecao, nome):
                 ordem=trilha_data[turma][colecao][nome]['ordem'],
                 img_path=trilha_data[turma][colecao][nome]['img_path'],
                 descricao=trilha_data[turma][colecao][nome]['descricao'],
-                quiz=trilha_data[turma][colecao][nome]['opitions']['quiz'],
-                teoria=trilha_data[turma][colecao][nome]['opitions']['teoria'],
-                ar=trilha_data[turma][colecao][nome]['opitions']['ar'],
-                validacao_pratica=trilha_data[turma][colecao][nome]['opitions']['validacao_pratica'],
-                progressivo=trilha_data[turma][colecao][nome]['opitions']['progressivo'],
+                quiz=trilha_data[turma][colecao][nome]['options']['quiz'],
+                teoria=trilha_data[turma][colecao][nome]['options']['teoria'],
+                ar=trilha_data[turma][colecao][nome]['options']['ar'],
+                validacao_pratica=trilha_data[turma][colecao][nome]['options']['validacao_pratica'],
+                progressivo=trilha_data[turma][colecao][nome]['options']['progressivo'],
                 autor=trilha_data[turma][colecao][nome]['autor']
             )
             return trilha
@@ -254,8 +333,55 @@ def load_trilhas_por_colecao(turma, colecao):
     except Exception as e:
         # Lida com exceções
         print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
-        return []
-    
+        return {}
+
+def load_permissoes_por_colecao(turma, colecao):
+    try:
+        # Consulta o banco de dados para obter os documentos de permissões dos usuários
+        # que têm a mesma turma e coleção especificadas
+        query = {
+            "permissoes."+ turma + '.' + colecao: {"$exists": True}
+        }
+        permissao_cursor = mongoDB.Permissoes.find(query)
+
+        # Inicializa uma lista para armazenar os documentos de permissão
+        permissoes = []
+
+        # Itera pelos documentos retornados pela consulta
+        for documento in permissao_cursor:
+            # Adiciona o documento de permissão à lista
+            permissoes.append(documento)
+
+        return permissoes
+
+    except Exception as e:
+        # Lida com exceções
+        print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
+        return {}
+
+def load_permissoes_por_colecao_por_usuario(turma, colecao, usuario):
+    try:
+        # Consulta o banco de dados para obter os documentos de permissões dos usuários
+        # que têm a mesma turma e coleção especificadas
+        query = {
+            "permissoes."+ turma + '.' + colecao: {"$exists": True}
+        }
+        permissao_cursor = mongoDB.Permissoes.find(query)
+
+        # Inicializa uma lista para armazenar os documentos de permissão
+        permissoes = []
+
+        # Itera pelos documentos retornados pela consulta
+        for documento in permissao_cursor:
+            # Adiciona o documento de permissão à lista
+            permissoes.append(documento)
+
+        return permissoes
+
+    except Exception as e:
+        # Lida com exceções
+        print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
+        return {}
 def listar_trilhas_por_colecao(turma, colecao):
     try:
         # Consulta o banco de dados para obter os nomes de trilhas da turma e coleção específicas

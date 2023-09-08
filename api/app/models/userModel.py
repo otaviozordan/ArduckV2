@@ -115,6 +115,25 @@ def buscar_email(email):
             erro_msg(f"Erro ao encontrar usuário com email {email}", e)
             return None
 
+def buscar_usuarios_por_turma(turma):
+        try:
+            # Realize a consulta com base na turma fornecida
+            usuarios_na_turma = mongoDB.Usuarios.find({"turma": turma})
+    
+            # Crie uma lista para armazenar os documentos de usuários sem o campo "_id"
+            lista_usuarios = []
+
+            # Itere sobre os documentos e remova o campo "_id"
+            for usuario in usuarios_na_turma:
+                usuario.pop("_id", None)  # Remove o campo "_id" se estiver presente
+                lista_usuarios.append(usuario)
+
+            return lista_usuarios
+
+        except Exception as e:
+            erro_msg(f"Erro ao listar emails de usuários da turma {turma}", e)
+            return []   
+
 def email_existe(email):
     usuario = buscar_email(email)
     return usuario is not None

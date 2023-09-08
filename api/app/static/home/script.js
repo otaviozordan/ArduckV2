@@ -64,7 +64,7 @@ var tempData = {};
 
 // Função para carregar a lista de usuários através de uma requisição AJAX
 function carregarUsuariosParaTemp() {
-  fetch('/buscarusuarios_turma')
+  fetch('/buscarusuarios_turma_usuario')
     .then(response => {
       if (!response.ok) {
         throw new Error('Erro na requisição');
