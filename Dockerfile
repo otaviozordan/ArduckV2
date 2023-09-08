@@ -11,10 +11,10 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copie o restante do código do projeto para o contêiner
-COPY server .
+COPY . .
 
 # Exponha a porta que sua aplicação Python irá ouvir
 EXPOSE 80
 
 # Comando para executar a sua aplicação quando o contêiner for iniciado
-CMD ["python", "api/app.py"]
+CMD ["python", "api/run.py"]
