@@ -5,6 +5,7 @@ from validate_email_address import validate_email
 from app.models.userModel import *
 from app.models.trilhaModel import *
 from app.controllers import authenticate
+from app.controllers.mensagens import erro_msg
 import json
 
 @app.route('/signup', methods=['POST'])
@@ -82,6 +83,7 @@ def signup():
         response['login'] = False
         response['erro'] = str(e)   
         response['Retorno'] = 'Erro ao sincronizar usuário'
+        erro_msg('Erro ao cadastar usuario',e)
         usuario.delet()            
         return Response(json.dumps(response), status=500, mimetype="application/json")
 

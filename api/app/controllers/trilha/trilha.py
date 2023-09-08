@@ -4,9 +4,10 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from app.models.userModel import *
 from app.models.trilhaModel import *
 from app.controllers import authenticate
+from app.controllers.mensagens import erro_msg, normal_msg
 import json
 
-@app.route('/cadastrartrilha', methods=['GET', 'POST'])
+@app.route('/cadastrartrilha', methods=['POST'])
 def cadastrartrilha():
     auth = authenticate('professor')
     if auth:
@@ -78,6 +79,7 @@ def cadastrartrilha():
         response['busca'] = False
         response['Retorno'] = 'Erro ao cadastrar trilha'         
         response['erro'] = str(e)
+        erro_msg('Erro ao cadastrar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
 
@@ -126,6 +128,7 @@ def buscartrilha():
         response['load'] = False
         response['Retorno'] = 'Erro ao buscar trilha'         
         response['erro'] = str(e)
+        erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
 
@@ -162,6 +165,7 @@ def buscartrilha_por_colecao(colecao):
         response['load'] = False
         response['Retorno'] = 'Erro ao buscar trilha'         
         response['erro'] = str(e)
+        erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
     
 
@@ -211,6 +215,7 @@ def listartrilha_por_colecao_permitida(colecao):
         response['load'] = False
         response['Retorno'] = 'Erro ao buscar trilha'         
         response['erro'] = str(e)
+        erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
 
@@ -250,6 +255,7 @@ def carregarquiz():
         response['load'] = False
         response['Retorno'] = 'Erro ao buscar quiz'         
         response['erro'] = str(e)
+        erro_msg('Erro ao buscar quiz',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
     
 
@@ -305,6 +311,7 @@ def verifiacarquiz():
         response['load'] = False
         response['Retorno'] = 'Erro ao buscar quiz'         
         response['erro'] = str(e)
+        erro_msg('Erro ao verificar quiz',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
     
 
@@ -339,6 +346,7 @@ def cadastrarprogresso():
         response['set'] = False
         response['Retorno'] = 'Elemento nao encontrado'         
         response['erro'] = str(e)
+        erro_msg('Erro ao regs=istrar progresso',e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
 
     

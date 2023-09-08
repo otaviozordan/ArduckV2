@@ -4,7 +4,7 @@ from flask_login import LoginManager
 import pymongo, json, sys
 import sys
 
-from app.controllers.mensagens import erro_msg
+from app.controllers.mensagens import erro_msg, normal_msg
 
 # Configura o Flask
 app = Flask(__name__, template_folder='templates')
@@ -15,9 +15,10 @@ app.config.from_pyfile('config.py')
 try:   
     mongoClient = pymongo.MongoClient(app.config['MONGO_URI'])
     mongoDB = mongoClient["ARduck"]
+    normal_msg('Banco conectado', mongoDB)
    
 except Exception as e:
-    print(erro_msg("Ao conectar no Mongo DB", e))
+    erro_msg("Ao conectar no Mongo DB", e)
     sys.exit(1)
 
 # Configuração do Flask-Login
