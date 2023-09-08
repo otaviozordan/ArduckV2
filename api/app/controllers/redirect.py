@@ -5,8 +5,9 @@ from app.controllers.user import login
 
 from app import app
 from flask import Response
-from flask_login import login_manager
+from flask_login import login_manager, current_user
 import json
+
 @app.errorhandler(401)
 def unauthorized(error):
     response = {'login':False, 'mensagem':"Não autorizado"}
@@ -22,4 +23,4 @@ def listar_rotas():
                 'methods': ','.join(rule.methods),
                 'path': rule.rule
             })
-    return Response(json.dumps({'rotas':rotas}), status=401, mimetype="application/json")
+    return Response(json.dumps({'rotas':rotas}), status=200, mimetype="application/json")

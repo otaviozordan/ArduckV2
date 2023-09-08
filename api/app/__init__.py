@@ -10,6 +10,7 @@ from app.controllers.mensagens import erro_msg
 app = Flask(__name__, template_folder='templates')
 app.config.from_pyfile('config.py')
 
+
 # Configura o MongoDB
 try:   
     mongoClient = pymongo.MongoClient(app.config['MONGO_URI'])
@@ -22,6 +23,5 @@ except Exception as e:
 # Configuração do Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
 
-from app.controllers import routes
+from app.controllers import redirect

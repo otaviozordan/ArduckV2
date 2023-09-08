@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from jsonschema import validate, ValidationError
 
+#Estrutura do MongoDB
 #{
 #   'turma': {
 #        'nome da coleção':{
@@ -123,57 +124,40 @@ class Trilha():
             }
         }
 
-    @classmethod
     def save(self):
         try:
-            # Verificar se a trilha já existe no banco de dados
-            trilha_existente = mongoDB.Trilhas.find_one(
-                {
-                    self.turma: {
-                        self.colecao: {
-                            self.nome: {
-                                "$exists": True
-                            }
-                        }
-                    }
+            # Crie o filtro para verificar se a trilha já existe
+            filtro = {
+                self.turma + '.' + self.colecao + '.' + self.nome: {
+                    "$exists": True
                 }
+            }
+
+            # Crie o documento que você deseja inserir ou atualizar
+            novo_documento = {
+                self.turma + '.' + self.colecao + '.' + self.nome: self.parametros
+            }
+
+            # Use update_one com upsert=True para inserir ou atualizar o documento
+            result = mongoDB.Trilhas.update_one(
+                filtro,
+                {
+                    "$set": novo_documento
+                },
+                upsert=True
             )
 
-            if trilha_existente:
-                # Se a trilha já existe, atualize-a
-                mongoDB.Trilhas.update_one(
-                    {
-                        self.turma: {
-                            self.colecao: {
-                                self.nome: {
-                                    "$exists": True
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "$set": {
-                            f"{self.turma}.{self.colecao}.{self.nome}": self.parametros
-                        }
-                    }
-                )
+            if result.upserted_id is None:
+                # Se não houve inserção, o documento já existia e foi atualizado
+                print(f"Trilha '{self.nome}' atualizada com sucesso.")
             else:
-                # Se a trilha não existe, insira-a
-                mongoDB.Trilhas.insert_one(
-                    {
-                        self.turma: {
-                            self.colecao: {
-                                self.nome: self.parametros
-                            }
-                        }
-                    }
-                )
+                # Se houve inserção, um novo documento foi criado
+                print(f"Trilha '{self.nome}' criada com sucesso.")
 
         except Exception as e:
-         erro_msg("Erro ao cadastrar trilha", e)
+            erro_msg("Erro ao cadastrar/trilha", e)
 
-    @classmethod
-    def syncpermissoes(cls, self, usuario, habilitado=True):
+    def syncpermissoes(self, usuario, habilitado=True):
         try:
             # Consulta o documento de permissões do usuário
             permissao_usuario = mongoDB.Permissoes.find_one({"usuario": usuario})
@@ -207,7 +191,7 @@ class Trilha():
         except Exception as e:
             erro_msg("Erro ao sincronizar trilhas para o usuário", e)
 
-def load_trilha_nome(turma, colecao, nome):
+def load_trilha_por_colecao_nome(turma, colecao, nome):
     try:
         # Busca a trilha no banco de dados
         trilha_data = mongoDB.Trilhas.find_one(
@@ -244,27 +228,51 @@ def load_trilha_nome(turma, colecao, nome):
         erro_msg("Erro ao carregar trilha", e)
         return None
         
+def load_trilhas_por_colecao(turma, colecao):
+    try:
+        # Consulta o banco de dados para obter os documentos que correspondem à turma e coleção específicas
+        query = {turma + '.' + colecao: {"$exists": True}}
+        trilhas_cursor = mongoDB.Trilhas.find(query)
 
-def buscar_trilhas_por_colecao(turma, colecao):
+        # Inicializa um dicionário para armazenar as trilhas no formato desejado
+        trilha = {}
+
+        # Itera pelos documentos retornados pela consulta
+        for documento in trilhas_cursor:
+            # Extrai o nome da trilha
+            trilha_nome = list(documento[turma][colecao].keys())[0]
+            
+            # Acessa os dados da trilha dentro do documento
+            trilha_data = documento[turma][colecao][trilha_nome]
+            
+            # Adiciona os dados da trilha ao dicionário no formato desejado
+            trilha[trilha_nome] = trilha_data
+
+        return trilha
+
+
+    except Exception as e:
+        # Lida com exceções
+        print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
+        return []
+    
+def listar_trilhas_por_colecao(turma, colecao):
     try:
         # Consulta o banco de dados para obter os nomes de trilhas da turma e coleção específicas
-        trilhas = mongoDB.Trilhas.find(
-            {
-                turma: {
-                    colecao: {
-                        "$exists": True
-                    }
-                }
-            }
-        )
-        # Extrai os nomes das trilhas encontradas
-        nomes_de_trilhas = []
-        for trilha in trilhas:
-            nomes_de_trilhas.extend(trilha[turma][colecao].keys())
-        return nomes_de_trilhas
+        query = {turma+'.'+colecao: {"$exists": True}}
+        trilhas_cursor = mongoDB.Trilhas.find(query)
+
+        # Lista para armazenar as chaves das trilhas encontradas
+        trilhas_encontradas = []
+
+        # Itera pelos documentos retornados
+        for documento in trilhas_cursor:
+            trilhas_encontradas.extend(documento[turma][colecao].keys())
+
+        return trilhas_encontradas
     except Exception as e:
-        erro_msg("Erro ao buscar nomes de trilhas", e)
-    return []
+        erro_msg("Erro ao buscar trilhas por coleção", e)
+        return []
 
 def listar_nomes_colecoes_por_turma(turma):
     try:
@@ -276,12 +284,13 @@ def listar_nomes_colecoes_por_turma(turma):
                 }
             }
         )
-        # Lista para armazenar os nomes das coleções
-        nomes_colecoes = []
+        # Conjunto para armazenar os nomes das coleções (evita duplicatas)
+        nomes_colecoes = set()
         for trilhas_turma in trilhas_por_turma:
             for colecao in trilhas_turma[turma].keys():
-                nomes_colecoes.append(colecao)
-        return nomes_colecoes
+                nomes_colecoes.add(colecao)  # Adiciona o nome da coleção ao conjunto
+
+        return list(nomes_colecoes)  # Converte o conjunto de volta para uma lista
     except Exception as e:
         erro_msg("Erro ao listar nomes das coleções por turma", e)
         return []

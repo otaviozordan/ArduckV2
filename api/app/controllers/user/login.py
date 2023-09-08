@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash, Response
 from flask_login import LoginManager, login_user, login_required, logout_user
-from app.models.userModel import Usuario
+from app.models.userModel import Usuario, buscar_email
 import json
 
 @app.route('/login', methods=['POST'])
@@ -18,7 +18,7 @@ def login():
         return Response(json.dumps(response), status=400, mimetype="application/json")
     
     # Consultar o usuário no MongoDB com base no email
-    user = Usuario.buscar_email(email)
+    user = buscar_email(email)
     if user and user.verify_password(password):
         login_user(user)  # Autenticar o usuário com o Flask-Login
         response['login'] = True

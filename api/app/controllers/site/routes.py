@@ -1,11 +1,14 @@
 from app import app
 from flask import render_template, redirect, send_from_directory
 from flask_login import current_user, login_required
+from app.controllers import authenticate
 
-@login_required
 @app.route('/')
 def index():
-    return redirect("/login")
+    auth = authenticate("professor")
+    if auth:
+        return redirect("/login")
+    return redirect("/home")
 
 @app.route('/login', methods=['GET'])
 def login_render():
@@ -17,9 +20,8 @@ def signup_render():
 
 @app.route('/home',  methods=['GET'])
 def home_render():
-    try:
-        if current_user.privilegio not in ['administrador', 'professor']:
-            return redirect("/login")
-        return render_template('home/index.html')
-    except:
+    auth = authenticate("professor")
+    if auth:
         return redirect("/login")
+
+    return render_template('home/index.html')
