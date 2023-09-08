@@ -359,29 +359,6 @@ def load_permissoes_por_colecao(turma, colecao):
         print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
         return {}
 
-def load_permissoes_por_colecao_por_usuario(turma, colecao, usuario):
-    try:
-        # Consulta o banco de dados para obter os documentos de permissões dos usuários
-        # que têm a mesma turma e coleção especificadas
-        query = {
-            "permissoes."+ turma + '.' + colecao: {"$exists": True}
-        }
-        permissao_cursor = mongoDB.Permissoes.find(query)
-
-        # Inicializa uma lista para armazenar os documentos de permissão
-        permissoes = []
-
-        # Itera pelos documentos retornados pela consulta
-        for documento in permissao_cursor:
-            # Adiciona o documento de permissão à lista
-            permissoes.append(documento)
-
-        return permissoes
-
-    except Exception as e:
-        # Lida com exceções
-        print(f"Ocorreu um erro ao carregar trilhas por colecao: {str(e)}")
-        return {}
 def listar_trilhas_por_colecao(turma, colecao):
     try:
         # Consulta o banco de dados para obter os nomes de trilhas da turma e coleção específicas
