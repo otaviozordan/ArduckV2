@@ -1,29 +1,32 @@
 version: '3'
 services:
-  flask-app:
-    build:
-      context: . # Aqui você especifica o caminho para o Dockerfile que construirá a imagem do seu aplicativo Flask.
-      dockerfile: Dockerfile  # Substitua pelo nome correto do seu Dockerfile Flask, se necessário.
-    ports:
-      - "80:80"  # Mapeia a porta 80 do host para a porta 80 do contêiner.
-    depends_on:
-      - mongodb  # Indica que este serviço depende dos serviços 'mongodb' e 'mysql'.
-    environment:
-      MONGO_URI: mongodb://mongodb:27017/ARduck  # Configura as variáveis de ambiente para a aplicação Flask.
-    networks:
-      - minha-rede
-
   mongodb:
-    image: mongo  # Usa a imagem oficial do MongoDB do Docker Hub.
+    image: mongo:latest
+    container_name: my-mongodb
     ports:
-      - "27017:27017"  # Mapeia a porta 27017 para acessar o MongoDB no contêiner.
+      - "127.0.0.1:27017:27017"
     volumes:
-      - mongodb_data:/data/db  # Define um volume chamado 'mongodb_data' para persistir os dados do MongoDB.
-    networks:
-      - minha-rede
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: debugduck
+      MONGO_INITDB_ROOT_PASSWORD: duckduckgo
+    command: ["--bind_ip", "127.0.0.1"]
 
-volumes:
-  mongodb_data:  # Define o volume 'mongodb_data' usado pelo serviço MongoDB.
+  flask-app:
+    image: your-flask-app-image:latest
+    container_name: my-flask-app
+    ports:
+      - "80:80"
+    depends_on:
+      - mongodb
+    environment:
+      MONGODB_URI: mongodb://debugduck:duckduckgo@mongodb:27017/your_db_name
+    networks:
+      - my-network
 
 networks:
-  minha-rede:
+  my-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
