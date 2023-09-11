@@ -10,7 +10,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: debugduck
       MONGO_INITDB_ROOT_PASSWORD: duckduckgo
-    command: ["--bind_ip", "127.0.0.1"]
 
   flask-app:
     build:
