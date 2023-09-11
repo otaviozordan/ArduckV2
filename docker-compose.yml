@@ -20,7 +20,7 @@ services:
     depends_on:
       - mongodb
     environment:
-      MONGODB_URI: mongodb://debugduck:duckduckgo@mongodb:27017/your_db_name
+      MONGODB_URI: mongodb://debugduck:duckduckgo@mongodb:27017/
     networks:
       - my-network
 
