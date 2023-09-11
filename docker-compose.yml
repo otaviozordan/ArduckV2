@@ -13,8 +13,9 @@ services:
     command: ["--bind_ip", "127.0.0.1"]
 
   flask-app:
-    image: your-flask-app-image:latest
-    container_name: my-flask-app
+    build:
+      context: . # Aqui você especifica o caminho para o Dockerfile que construirá a imagem do seu aplicativo Flask.
+      dockerfile: Dockerfile  # Substitua pelo nome correto do seu Dockerfile Flask, se necessário.    container_name: my-flask-app
     ports:
       - "80:80"
     depends_on:
