@@ -16,7 +16,7 @@ def cadastrartrilha():
     response = {}
     body = request.get_json()
     try:
-        turma = body['turma']
+        turma = current_user.turma
         colecao = body['colecao']
         trilha = body['trilha']
         ordem = body['ordem']
