@@ -49,8 +49,11 @@ O JSON enviado no campo 'metadata' deve ter a seguinte estrutura:
 
 O nome do arquivo é construído com base nas informações fornecidas no JSON de metadata e na ação especificada na URL.
 
-- Se a ação for 'icon', o nome do arquivo será construído como: `current_user.turma/colecao/trilha/icon.extensao`.
-- Se a ação for 'teoria', o nome do arquivo será construído como: `current_user.turma/colecao/trilha/teoria/<número_do_arquivo>.extensao`. O número do arquivo é incrementado automaticamente.
+- Se a ação for 'icon', o nome do arquivo será construído como: 
+`current_user.turma/colecao/trilha/icon.extensao`.
+- Se a ação for 'teoria', o nome do arquivo será construído como: 
+`current_user.turma/colecao/trilha/teoria/<número_do_arquivo>.extensao`. 
+O número do arquivo é incrementado automaticamente.
 
 ## Exemplo de Uso
 
@@ -62,6 +65,7 @@ Aqui está um exemplo de como usar a API de upload de arquivos em uma página da
     <input type="hidden" name="metadata" value='{"colecao": "minha_colecao", "trilha": "minha_trilha"}'>
     <input type="submit" value="Enviar Arquivo">
 </form>
+```
 
 Lembre-se de que você deve substituir os valores de 'colecao' e 'trilha' com os nomes apropriados para o seu caso de uso.
 
