@@ -83,6 +83,7 @@ Se o upload for bem-sucedido, você receberá uma resposta com um status HTTP 20
     "message": "Arquivo 'nome_do_arquivo' renomeado para 'novo_nome_do_arquivo' e salvo com sucesso!",
     "new_filename": "novo_nome_do_arquivo"
 }
+```
 
 # Erro no Processo de Upload
 
@@ -94,6 +95,7 @@ Se houver algum erro no processo de upload, você receberá uma resposta com um 
     "Retorno": "Erro",
     "erro": "Descrição do erro"
 }
+```
 
 
 ##Considerações Finais
