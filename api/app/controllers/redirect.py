@@ -1,5 +1,6 @@
 from app.controllers.site import routes
 from app.controllers.trilha import trilha
+from app.controllers.trilha import files
 from app.controllers.user import cadastrar_carregar
 from app.controllers.user import login
 

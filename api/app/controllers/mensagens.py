@@ -17,18 +17,8 @@ def escrever_mensagem(mensagem):
 def erro_msg(msg, error):
     escrever_mensagem(f"[ERRO] {msg} -> {error}")
     print(f"{Fore.RED}[ERRO] {msg} -> {error} {Style.RESET_ALL}")
-    response = {
-        'erro':'fatal erro',
-        'msg': msg + " -> " + str(error),
-    }
-    return Response(json.dumps(response), status=500, mimetype="application/json")
 
 # Função para formatar mensagens de erro
 def normal_msg(msg, error):
     escrever_mensagem(f"[INFO] {msg} -> {error}")
     print(f"{Fore.GREEN}[INFO] {msg} -> {error} {Style.RESET_ALL}")
-    response = {
-        'erro':'fatal erro',
-        'msg': msg + " -> " + str(error),
-    }
-    return Response(json.dumps(response), status=500, mimetype="application/json")
