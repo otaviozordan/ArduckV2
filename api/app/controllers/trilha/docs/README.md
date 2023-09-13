@@ -38,6 +38,7 @@ O JSON enviado no campo 'metadata' deve ter a seguinte estrutura:
     "colecao": "nome_da_colecao",
     "trilha": "nome_da_trilha"
 }
+```
 
 ## Coleção e Trilha
 
