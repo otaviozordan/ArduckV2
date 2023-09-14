@@ -33,5 +33,5 @@ def login():
 @login_required
 def logout():
     logout_user()
-    response = {"login": False, "Mensagem:":"Usuário desconectado"}
+    response = {"login": False, "Mensagem:":"Usuario desconectado"}
     return Response(json.dumps(response), status=200, mimetype="application/json")

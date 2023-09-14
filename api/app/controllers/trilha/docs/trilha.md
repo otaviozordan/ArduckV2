@@ -10,17 +10,42 @@ Esta documentação descreve a implementação e o funcionamento de uma aplicaç
 - **Método**: `POST`
 - **Descrição**: Permite aos professores cadastrar uma nova trilha educacional.
 
-**Parâmetros de Requisição:**
-- `colecao` (string): Nome da coleção à qual a trilha pertencerá.
-- `trilha` (string): Nome da trilha.
-- `ordem` (int): A ordem da trilha.
-- `img_path` (string): O caminho da imagem associada à trilha.
-- `descricao` (string): A descrição da trilha.
-- `teoria` (string): Conteúdo teórico da trilha.
-- `quiz` (lista de objetos): Lista de questionários associados à trilha.
-- `validacao_pratica` (string): Informação sobre a validação prática da trilha.
-- `ar` (string): Informação sobre a avaliação da trilha.
-- `progressivo` (boolean): Define se a trilha é progressiva ou não.
+```json
+{
+    "colecao": "ARduck",
+    "trilha": "Resistores2",
+    "ordem": 1,
+    "img_path": "/path",
+    "descricao": "Seja bem-vindo ao ARduck, aqui você aprende de verdade. Essa trilha sumirá quando você criar outra.",
+    "teoria": ["Loren ipson", "/path1", "Bla bla bla", "/path"],
+    "quiz": [
+        {
+            "pergunta 1": "QuemA é mais bonito",
+            "resposta certa": "Otavio",
+            "alternativas": {
+                "opcao 1": "Athos",
+                "opcao 2": "Kayque",
+                "opcao 3": "Otavio"
+            }
+        },
+        {
+            "pergunta 2": "Quem é mais estranho",
+            "resposta certa": "Athos",
+            "alternativas": {
+                "opcao 1": "Athos",
+                "opcao 2": "Kayque",
+                "opcao 3": "Otavio"
+            }
+        }
+    ],
+    "validacao_pratica": {
+        "tipo": "multimetro",
+        "valor_esperado": "1.23V"
+    },
+    "ar": true,
+    "progressivo": false
+}
+```
 
 **Respostas:**
 - `Status 200`: Trilha cadastrada com sucesso. Retorna um JSON com os detalhes da trilha.

@@ -1,19 +1,21 @@
 from app import app
 from flask import request, Response
-from flask_login import current_user
+from flask_login import current_user, login_user
 from werkzeug.utils import secure_filename
 from app.controllers import authenticate
+from app.models.userModel import buscar_email
 from app.controllers.mensagens import erro_msg, normal_msg
 import json
 import os
 
-@app.route('/upload_file/<acao>', methods=['POST'])
-def upload_file(acao):
+@app.route('/upload_file/', methods=['POST'])
+def upload_file():
     try:
-        auth = authenticate('professor')
+        auth = authenticate('log')
         if auth:
             return Response(json.dumps(auth), status=401, mimetype="application/json")
-        # Verifica se um arquivo foi enviado no formulário
+
+        # Verifique se um arquivo foi enviado no formulário
         if 'file' not in request.files:
             response = {
                 'upload': False,
@@ -23,60 +25,53 @@ def upload_file(acao):
 
         file = request.files['file']
 
-        # Verifica se o nome do arquivo é vazio
+        # Verifique se o nome do arquivo é vazio
         if file.filename == '':
             response = {
                 'upload': False,
                 'Retorno': 'Nome do arquivo vazio',
             }
             return Response(json.dumps(response), status=400, mimetype="application/json")
-        
-        # Verifica se o campo 'metadata' está presente no formulário
-        if 'metadata' not in request.form:
-            response = {
-                'upload': False,
-                'Retorno': 'Metadata deve estar presente no form'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json")            
-        
-        # Analisa o JSON enviado no formulário
-        form_data = json.loads(request.form['metadata'])
 
-        # Verifica se as chaves 'colecao' e 'trilha' estão presentes no JSON
-        if 'colecao' not in form_data or 'trilha' not in form_data:
+        # Verifique se o campo 'colecao' está presente no formulário
+        if 'colecao' not in request.form:
             response = {
                 'upload': False,
-                'Retorno': 'JSON incompleto! Deve conter as chaves "colecao" e "trilha".'
+                'Retorno': 'colecao deve estar presente no form'
             }
             return Response(json.dumps(response), status=400, mimetype="application/json")
 
-        # Constrói o novo nome do arquivo com base nas chaves do JSON
-        
-        if acao is 'icon':
-            new_filename = f"{current_user.turma}{form_data['colecao']}/{form_data['trilha']}/icon.{os.path.splitext(file.filename)[1]}"
-        elif acao is 'teoria': #codigo para salvar o numero de arquivos na pasta colecao/trilha/teoria +1
-            # Determine the current count of files in the directory
-            directory = os.path.join(app.config['UPLOAD_FOLDER'], current_user.turma, form_data['colecao'], form_data['trilha'], 'teoria')
-            current_file_count = len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))])
+        # Verifique se o campo 'trilha' está presente no formulário
+        if 'trilha' not in request.form:
+            response = {
+                'upload': False,
+                'Retorno': 'trilha deve estar presente no form'
+            }
+            return Response(json.dumps(response), status=400, mimetype="application/json")
 
-            # Increment the count
-            new_file_count = current_file_count + 1
+        colecao = json.loads(request.form['colecao'])
+        trilha = json.loads(request.form['trilha'])
+        turma = current_user.turma  # Substitua por como você obtém a turma do usuário
+        user_email = current_user.email  # Substitua por como você obtém o email do usuário
+        acao = json.loads(request.form['acao'])
 
-            # Create the new filename with the incremented count
-            new_filename = f"{current_user.turma}/{form_data['colecao']}/{form_data['trilha']}/teoria/{new_file_count}.{os.path.splitext(file.filename)[1]}"
+        print("colecao:", colecao)
+        print("trilha:", trilha)
+        print("turma:", turma)
+        print("user_email:", user_email)
+        print("acao:", acao)
 
-        new_filename = secure_filename(new_filename)
+        return save_uploaded_file(file, acao, turma, colecao, trilha, user_email)
 
-        # Salva o arquivo na pasta de upload
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
-
+    except Exception as e:
+        print("Erro:", str(e))
         response = {
-            'upload': True,
-            'message': f'Arquivo "{file.filename}" renomeado para "{new_filename}" e salvo com sucesso!',
-            'new_filename': new_filename
+            'upload': False,
+            'Retorno': 'Erro',
+            'erro': str(e)
         }
-        return Response(json.dumps(response), status=200, mimetype="application/json")
-
+        erro_msg("Upload de imagem", e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")
     except Exception as e:
         response = {
             'upload': False,
@@ -85,3 +80,43 @@ def upload_file(acao):
         }
         erro_msg("Upload de imagem", e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
+
+
+
+@app.route('/render_test_upload_file', methods=['GET'])
+def render_test_upload_file():
+    user = buscar_email('otavio@outlook.com')
+    login_user(user)  # Autenticar o usuário com o Flask-Login
+    page = """
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Upload de Arquivos</title>
+    </head>
+    <body>
+        <h1>Envie um arquivo</h1>
+        <form action="/upload_file/" method="post" enctype="multipart/form-data">
+            <label for="file">Selecione um arquivo:</label>
+            <input type="file" name="file" id="file" accept=".pdf, .jpg, .png, .gif"><!-- Defina as extensões de arquivo aceitáveis -->
+            <br>
+            <label for="acao">Selecione a ação:</label>
+            <select name="acao" id="acao">
+                <option value="icon">Icon</option>
+                <option value="teoria">Teoria</option>
+                <option value="validacao">Validação</option>
+            </select>
+            <br>
+            <label for="colecao">Coleção:</label>
+            <input type="text" name="colecao" id="colecao">
+            <br>
+            <label for="trilha">Trilha:</label>
+            <input type="text" name="trilha" id="trilha">
+            <br>
+            <input type="submit" value="Enviar">
+        </form>
+    </body>
+    </html>
+
+    """
+    return Response(page, status=200, mimetype="text/html")

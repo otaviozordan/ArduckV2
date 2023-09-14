@@ -16,13 +16,13 @@ def signup():
         email = body['email']
         if not validate_email(email):
             response['login'] = False
-            response['Retorno'] = 'Email inválido'                
+            response['Retorno'] = 'Email invalido'                
             return Response(json.dumps(response), status=400, mimetype="application/json")
       
         # Verificar se o email já existe no banco de dados
         if email_existe(email):
             response['login'] = False
-            response['Retorno'] = 'Email já existe'
+            response['Retorno'] = 'Email ja existe'
             return Response(json.dumps(response), status=400, mimetype="application/json")
         
         password = body['password']
@@ -59,7 +59,7 @@ def signup():
     except Exception as e:
         response['login'] = False
         response['erro'] = str(e)   
-        response['Retorno'] = 'Erro ao salvar usuário'
+        response['Retorno'] = 'Erro ao salvar usuario'
         usuario.delet()            
         return Response(json.dumps(response), status=500, mimetype="application/json")
     
@@ -82,7 +82,7 @@ def signup():
     except Exception as e:
         response['login'] = False
         response['erro'] = str(e)   
-        response['Retorno'] = 'Erro ao sincronizar usuário'
+        response['Retorno'] = 'Erro ao sincronizar usuario'
         erro_msg('Erro ao cadastar usuario',e)
         usuario.delet()            
         return Response(json.dumps(response), status=500, mimetype="application/json")

@@ -182,7 +182,7 @@ def listartrilha_por_colecao_permitida(colecao):
 
     except Exception as e:
         response['load'] = False
-        response['Retorno'] = 'Parametros inválidos ou ausentes'         
+        response['Retorno'] = 'Parametros invalidos ou ausentes'         
         response['erro'] = str(e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
 
