@@ -2,6 +2,7 @@
 from flask import Flask, Response
 from flask_login import LoginManager
 import pymongo, json, sys
+from flask_cors import CORS
 import sys
 
 from app.controllers.mensagens import erro_msg, normal_msg
@@ -9,7 +10,7 @@ from app.controllers.mensagens import erro_msg, normal_msg
 # Configura o Flask
 app = Flask(__name__, template_folder='templates')
 app.config.from_pyfile('config.py')
-
+CORS(app)
 
 # Configura o MongoDB
 try:   
