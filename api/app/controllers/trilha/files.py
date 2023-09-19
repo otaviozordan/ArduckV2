@@ -50,8 +50,8 @@ def upload_file_icon():
             }
             return Response(json.dumps(response), status=400, mimetype="application/json")
 
-        colecao = json.loads(request.form['colecao'])
-        trilha = json.loads(request.form['trilha'])
+        colecao = request.form['colecao']
+        trilha = request.form['trilha']
         turma = current_user.turma  # Substitua por como você obtém a turma do usuário
         user_email = current_user.email  # Substitua por como você obtém o email do usuário
 

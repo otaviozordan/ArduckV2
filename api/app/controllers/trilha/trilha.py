@@ -218,7 +218,6 @@ def listartrilha_por_colecao_permitida(colecao):
         erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
-
 @app.route('/carregarquiz', methods=['POST'])
 def carregarquiz():
     auth = authenticate('log')
@@ -351,44 +350,6 @@ def cadastrarprogresso():
 
 @app.route('/verificarmedidas', methods=['POST'])
 def verificarmedidas():
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    try:
-        response = {}
-        body = request.get_json()
-        colecao = body['colecao']
-        nome = body['trilha']
-
-    except Exception as e:
-        response['load'] = False
-        response['Retorno'] = 'Parametros invalidos ou ausentes'         
-        response['erro'] = str(e)
-        return Response(json.dumps(response), status=400, mimetype="application/json")
-
-    try:        
-        trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
-        if nome in trilhas:
-            trilha = trilhas[nome]
-            quiz = trilha['options']['quiz']
-            return Response(json.dumps({'load':True, 'quiz':quiz}), status=200, mimetype="application/json")
-        else:
-            response = {
-                'load':False,
-                'Retorno':'Quiz não encontrado'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json")
-        
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar quiz'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar quiz',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-@app.route('/carregarquiz', methods=['POST'])
-def carregarquiz():
     auth = authenticate('log')
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
