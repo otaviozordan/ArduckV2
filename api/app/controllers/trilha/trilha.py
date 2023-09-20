@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash, Response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+import re
 from app.models.userModel import *
 from app.models.trilhaModel import *
 from app.controllers import authenticate
@@ -354,11 +355,25 @@ def verificarmedidas():
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
     
+    def converte_para_SI(valor, unidade):
+        if unidade.lower() == 'mv':
+            return valor / 1000  # Converte de mV para V
+        elif unidade.lower() == 'v':
+            return valor  # Já está em V
+        elif unidade.lower() == 'ma':
+            return valor / 1000  # Converte de mV para V        elif unidade.lower() == 'v':
+        elif unidade.lower() == 'a':
+            return valor  # Já está em V
+        else:
+            raise ValueError("Unidade de entrada inválida. Use 'mV' ou 'V' para tensao e 'mA' ou 'A' para corrente.")
+
     try:
         response = {}
         body = request.get_json()
         colecao = body['colecao']
         nome = body['trilha']
+        medida = body['medidas']
+        escala = body['escala']
 
     except Exception as e:
         response['load'] = False
@@ -369,20 +384,44 @@ def verificarmedidas():
     try:        
         trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
         if nome in trilhas:
-            trilha = trilhas[nome]
-            quiz = trilha['options']['quiz']
-            return Response(json.dumps({'load':True, 'quiz':quiz}), status=200, mimetype="application/json")
+            validacao = trilhas[nome]['options']['validacao_pratica']
+            print(validacao)
+            if validacao['tipo'] == 'multimetro':
+                esperado = validacao['valor_esperado']
+                
+                if verifica_gabarito(gabarito=esperado, escala=escala, valor=medida):
+                    response = {
+                    'validado':True,
+                    'correto':True,
+
+                    }
+                    return Response(json.dumps(response), status=200, mimetype="application/json")
+                else:
+                    response = {
+                    'validado':True,
+                    'correto':False,
+                    'Retorno':'Medida nao correspondente'
+                    }
+                    return Response(json.dumps(response), status=200, mimetype="application/json")                    
+
+            else:
+                response = {
+                    'validado':False,
+                    'Retorno':'Tipo de medida nao encontrada'
+                }
+                return Response(json.dumps(response), status=400, mimetype="application/json")
+        
         else:
             response = {
                 'load':False,
-                'Retorno':'Quiz não encontrado'
+                'Retorno':'Trilha nao encontrada'
             }
             return Response(json.dumps(response), status=400, mimetype="application/json")
         
     except Exception as e:
         response = {}
         response['load'] = False
-        response['Retorno'] = 'Erro ao buscar quiz'         
+        response['Retorno'] = 'Erro ao buscar trilha'         
         response['erro'] = str(e)
-        erro_msg('Erro ao buscar quiz',e)
+        erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")

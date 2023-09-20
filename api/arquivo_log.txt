@@ -6,3 +6,5 @@
 [2023-09-19 16:18:52] [ERRO] Upload de imagem -> Expecting value: line 1 column 1 (char 0)
 [2023-09-19 16:19:48] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
 [2023-09-19 16:21:51] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-19 16:28:22] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-19 16:28:24] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')

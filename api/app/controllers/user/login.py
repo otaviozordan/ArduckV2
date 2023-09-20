@@ -18,7 +18,7 @@ def login():
         return Response(json.dumps(response), status=400, mimetype="application/json")
     
     # Consultar o usuário no MongoDB com base no email
-    user = buscar_email(email)
+    user = buscar_email(email=email)
     if user and user.verify_password(password):
         login_user(user)  # Autenticar o usuário com o Flask-Login
         response['login'] = True

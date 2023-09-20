@@ -86,7 +86,9 @@ def upload_file_icon():
         response = {
             'upload': True,
             'message': f'Arquivo "{file.filename}" renomeado para "{new_filename}" e salvo com sucesso!',
-            'new_filename': new_filename
+            'new_filename': new_filename,
+            'path':file_path
+
         }
         return Response(json.dumps(response), status=200, mimetype="application/json")
 
@@ -181,7 +183,9 @@ def upload_file_teoria():
         response = {
             'upload': True,
             'message': f'Arquivo "{file.filename}" renomeado para "{new_filename}" e salvo com sucesso!',
-            'new_filename': new_filename
+            'new_filename': new_filename,
+            'path':file_path
+
         }
         return Response(json.dumps(response), status=200, mimetype="application/json")
 
@@ -259,11 +263,16 @@ def upload_file_validacao():
         trilha_dir = os.path.join(colecao_dir, trilha)
         if not os.path.exists(trilha_dir):
             os.makedirs(trilha_dir)
-        
+
+        # Crie o diretório para a trilha do usuário, se não existir
+        user_dir = os.path.join(trilha_dir, current_user.email)
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+
         filename = 'validacao' + os.path.splitext(file.filename)[-1]
 
         # Caminho completo para salvar o arquivo
-        file_path = os.path.join(trilha_dir, filename)
+        file_path = os.path.join(user_dir, filename)
 
         # Salve o arquivo
         file.save(file_path)
@@ -273,7 +282,8 @@ def upload_file_validacao():
         response = {
             'upload': True,
             'message': f'Arquivo "{file.filename}" renomeado para "{new_filename}" e salvo com sucesso!',
-            'new_filename': new_filename
+            'new_filename': new_filename,
+            'path':file_path
         }
         return Response(json.dumps(response), status=200, mimetype="application/json")
 
