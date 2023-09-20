@@ -233,7 +233,7 @@ class Trilha():
 
             except Exception as e:
                 erro_msg("Erro ao sincronizar progresso para o usuário", e)
-
+    
     def setprogresso(self, usuario, elemento):
         try:
             # Consulta o documento de progresso do usuário
@@ -260,7 +260,6 @@ class Trilha():
                 progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = {}  # Crie a estrutura vazia
 
             # Atualize o elemento específico para True
-            elemento = "quiz"  # Substitua por seu elemento específico
             progresso_usuario["progresso"][self.turma][self.colecao][self.nome][elemento] = True
 
             # Atualize ou insira o documento de progresso no banco de dados

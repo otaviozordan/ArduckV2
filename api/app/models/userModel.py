@@ -134,6 +134,17 @@ def buscar_usuarios_por_turma(turma):
             erro_msg(f"Erro ao listar emails de usuários da turma {turma}", e)
             return []   
 
+def buscar_progresso_do_usuario(email):
+    try:
+        # Consulta o documento de progresso do usuário
+        progresso_usuario = mongoDB.Progresso.find_one({"usuario": email})
+        if progresso_usuario:
+            return progresso_usuario.get("progresso", {})
+        else:
+            return {}
+    except Exception as e:
+        erro_msg("Erro ao buscar progresso do usuário", e)
+
 def email_existe(email):
     usuario = buscar_email(email)
     return usuario is not None

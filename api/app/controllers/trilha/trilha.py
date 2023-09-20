@@ -444,3 +444,34 @@ def verificarmedidas():
         response['erro'] = str(e)
         erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
+    
+
+@app.route('/verificarprogresso_turma', methods=['GET'])
+def verificarprogresso_turma():
+    auth = authenticate('log')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+
+    try:
+        response = {}
+        lista_permissoes = {}
+        usuarios = buscar_usuarios_por_turma
+        
+        for usuario in usuarios:
+            print(usuario)
+            progresso_user = buscar_progresso_do_usuario(usuario)
+            lista_permissoes[usuario] = progresso_user
+
+        response = {
+            'load':True,
+            'progressos':lista_permissoes
+        }
+        return Response(json.dumps(response), status=500, mimetype="application/json")
+        
+    except Exception as e:
+        response = {}
+        response['load'] = False
+        response['Retorno'] = 'Erro ao buscar progressos'         
+        response['erro'] = str(e)
+        erro_msg('Erro ao buscar progressos',e)
+        return Response(json.dumps(response), status=500, mimetype="application/json")
