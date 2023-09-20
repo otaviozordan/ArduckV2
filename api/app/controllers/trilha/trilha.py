@@ -357,23 +357,35 @@ def verificarmedidas():
     
     def converte_para_SI(valor, unidade):
         if unidade.lower() == 'mv':
-            return valor / 1000  # Converte de mV para V
+            return valor / 1000, "v"  # Converte de mV para V
         elif unidade.lower() == 'v':
-            return valor  # Já está em V
+            return valor, 'v'
         elif unidade.lower() == 'ma':
-            return valor / 1000  # Converte de mV para V        elif unidade.lower() == 'v':
+            return valor / 1000, 'a'  # Converte de mA para A
         elif unidade.lower() == 'a':
-            return valor  # Já está em V
+            return valor, "a"
         else:
             raise ValueError("Unidade de entrada inválida. Use 'mV' ou 'V' para tensao e 'mA' ou 'A' para corrente.")
+
+    def separar_valor_escala(texto):
+        # Use uma expressão regular para separar o valor e a escala
+        padrao = r'([\d.]+)([A-Za-z]+)'
+        correspondencia = re.match(padrao, texto)
+
+        if correspondencia:
+            valor = float(correspondencia.group(1))
+            escala = correspondencia.group(2)
+            return valor, escala
+        else:
+            raise ValueError("Formato de entrada inválido.")
 
     try:
         response = {}
         body = request.get_json()
         colecao = body['colecao']
         nome = body['trilha']
-        medida = body['medidas']
-        escala = body['escala']
+        medida_body = body['medidas']
+        escala_body = body['escala']
 
     except Exception as e:
         response['load'] = False
@@ -385,22 +397,29 @@ def verificarmedidas():
         trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
         if nome in trilhas:
             validacao = trilhas[nome]['options']['validacao_pratica']
-            print(validacao)
             if validacao['tipo'] == 'multimetro':
                 esperado = validacao['valor_esperado']
-                
-                if verifica_gabarito(gabarito=esperado, escala=escala, valor=medida):
+                valor_gab, escala_gab = separar_valor_escala(esperado)
+                valor_gab, escala_gab = converte_para_SI(valor=valor_gab, unidade=escala_gab)
+                print(valor_gab, escala_gab)
+                medida_body, escala_body = converte_para_SI(valor=int(medida_body), unidade=escala_body) 
+                print(medida_body, escala_body)
+
+                if medida_body == valor_gab:
                     response = {
                     'validado':True,
                     'correto':True,
-
+                    'valor_lido':str(medida_body)+escala_body,
+                    'valor_correto':str(valor_gab)+escala_gab
                     }
                     return Response(json.dumps(response), status=200, mimetype="application/json")
                 else:
                     response = {
                     'validado':True,
                     'correto':False,
-                    'Retorno':'Medida nao correspondente'
+                    'Retorno':'Medida nao correspondente',
+                    'valor_lido':str(medida_body)+escala_body,
+                    'valor_correto':str(valor_gab)+escala_gab
                     }
                     return Response(json.dumps(response), status=200, mimetype="application/json")                    
 
