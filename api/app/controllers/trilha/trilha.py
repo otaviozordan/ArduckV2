@@ -444,7 +444,7 @@ def verificarmedidas():
         response['erro'] = str(e)
         erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
-    
+
 
 @app.route('/verificarprogresso_turma', methods=['GET'])
 def verificarprogresso_turma():
@@ -455,18 +455,17 @@ def verificarprogresso_turma():
     try:
         response = {}
         lista_permissoes = {}
-        usuarios = buscar_usuarios_por_turma
+        usuarios = buscar_usuarios_por_turma(current_user.turma)
         
         for usuario in usuarios:
-            print(usuario)
-            progresso_user = buscar_progresso_do_usuario(usuario)
-            lista_permissoes[usuario] = progresso_user
+            progresso_user = buscar_progresso_do_usuario(usuario['email'])
+            lista_permissoes[usuario['email']] = progresso_user
 
         response = {
             'load':True,
             'progressos':lista_permissoes
         }
-        return Response(json.dumps(response), status=500, mimetype="application/json")
+        return Response(json.dumps(response), status=200, mimetype="application/json")
         
     except Exception as e:
         response = {}

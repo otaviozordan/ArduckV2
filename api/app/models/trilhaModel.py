@@ -216,10 +216,22 @@ class Trilha():
                 opcoes = self.parametros['options']
 
                 progresso = {
-                    'ar': False,
-                    'validacao_pratica': False,
-                    'teoria': False,
-                    'quiz': [False] * len(opcoes['quiz'])  # Inicialize a lista com valores False
+                    'ar': {
+                        "acertos":[],
+                        "erros":[]
+                    },
+                    'validacao_pratica': {
+                        "acertos":[],
+                        "erros":[]
+                    },
+                    'teoria': {
+                        "acertos":[],
+                        "erros":[]
+                    },
+                    'quiz': {
+                        "acertos":[],
+                        "erros":[]
+                    },
                 }
 
                 progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = progresso
@@ -238,7 +250,7 @@ class Trilha():
         try:
             # Consulta o documento de progresso do usuário
             progresso_usuario = mongoDB.Progresso.find_one({"usuario": usuario})
-
+    
             if not progresso_usuario:
                 # Se o documento de progresso não existir, crie-o com uma estrutura vazia para progresso
                 progresso_usuario = {
@@ -246,31 +258,67 @@ class Trilha():
                     "turma": self.turma,
                     "progresso": {}
                 }
-
+    
             # Crie uma estrutura de progresso para a turma se não existir
             if self.turma not in progresso_usuario["progresso"]:
                 progresso_usuario["progresso"][self.turma] = {}
-
+    
             # Crie uma estrutura de progresso para a coleção se não existir
             if self.colecao not in progresso_usuario["progresso"][self.turma]:
                 progresso_usuario["progresso"][self.turma][self.colecao] = {}
-
+    
             # Verifique se já existe um documento de progresso para a trilha
             if self.nome not in progresso_usuario["progresso"][self.turma][self.colecao]:
-                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = {}  # Crie a estrutura vazia
-
-            # Atualize o elemento específico para True
-            progresso_usuario["progresso"][self.turma][self.colecao][self.nome][elemento] = True
-
+                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = {
+                    'quiz': {'acertos': [], 'erros': []},
+                    'validacao_pratica': {'acertos': [], 'erros': []},
+                    'ar': {'acertos': [], 'erros': []},
+                    'teoria': {'acertos': [], 'erros': []}
+                }  # Crie a estrutura vazia
+    
+            # Divide a entrada usando '/' como separador
+            parts = elemento.split('/')
+            propriedades = progresso_usuario["progresso"][self.turma][self.colecao][self.nome]
+            if parts[0] == 'quiz':
+                # Verifica se a entrada contém a informação de acerto ou erro
+                if len(parts) == 3 and parts[2].lower() == 'true':
+                    print(progresso_usuario)
+                    print(int(parts[1]))
+                    propriedades['quiz']['acertos'].append(int(parts[1]))
+                else:
+                    propriedades['quiz']['erros'].append(int(parts[1]))
+    
+            elif parts[0] == 'validacao_pratica':
+                # Verifica se a entrada contém a informação de acerto ou erro
+                if len(parts) == 2 and parts[1].lower() == 'true':
+                    propriedades['validacao_pratica']['acertos'].append(bool(parts[1]))
+                else:
+                    propriedades['validacao_pratica']['erros'].append(bool(parts[1]))
+    
+            elif parts[0] == 'ar':
+                # Verifica se a entrada contém a informação de acerto ou erro
+                if len(parts) == 2 and parts[1].lower() == 'true':
+                    propriedades['ar']['acertos'].append(bool(parts[1]))
+                else:
+                    propriedades['ar']['erros'].append(bool(parts[1]))
+    
+            elif parts[0] == 'teoria':
+                # Verifica se a entrada contém a informação de acerto ou erro
+                if len(parts) == 2 and parts[1].lower() == 'true':
+                    propriedades['teoria']['acertos'].append(bool(parts[1]))
+                else:
+                    propriedades['teoria']['erros'].append(bool(parts[1]))
+    
             # Atualize ou insira o documento de progresso no banco de dados
             mongoDB.Progresso.update_one(
                 {"usuario": usuario},
                 {"$set": {"progresso": progresso_usuario["progresso"]}},
                 upsert=True  # Insere um novo documento se não existir
             )
-
+    
         except Exception as e:
             erro_msg("Erro ao sincronizar progresso para o usuário", e)
+    
 
 def load_trilha_por_colecao_nome(turma, colecao, nome):
     try:
