@@ -21,9 +21,17 @@ def cadastrartrilha():
         colecao = body['colecao']
         trilha = body['trilha']
         ordem = body['ordem']
-        img_path = body['img_path']
+        img_path = f'/static/imgs/{turma}/{colecao}/{trilha}/icon.jpg'
         descricao = body['descricao']
-        teoria = body['teoria']
+        temp_teoria = body['teoria']
+        teoria = []
+        for item in temp_teoria:
+            if item.startswith('$'):
+                novo_item = f'/static/imgs/{turma}/{colecao}/{trilha}/{item[1:]}.jpg'
+            else:
+                novo_item = item
+            teoria.append(novo_item)
+
         quiz = body['quiz']
         validacao_pratica = body['validacao_pratica']
         ar = body['ar']
