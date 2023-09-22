@@ -1,10 +1,11 @@
-version: '3'
+version: '3.8'  # Use a versão mais recente do Docker Compose
+
 services:
   mongodb:
     image: mongo:latest
     container_name: my-mongodb
     ports:
-      - "127.0.0.1:27017:27017"
+      - "27017:27017"  # Mapeie a porta diretamente, sem o uso de 127.0.0.1
     volumes:
       - mongodb_data:/data/db
     environment:
@@ -13,8 +14,8 @@ services:
 
   flask-app:
     build:
-      context: . # Aqui você especifica o caminho para o Dockerfile que construirá a imagem do seu aplicativo Flask.
-      dockerfile: Dockerfile  # Substitua pelo nome correto do seu Dockerfile Flask, se necessário.    container_name: my-flask-app
+      context: .  # Use o Dockerfile padrão no mesmo diretório
+    container_name: my-flask-app
     ports:
       - "80:80"
     depends_on:
