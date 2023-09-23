@@ -21,7 +21,7 @@ def cadastrartrilha():
         colecao = body['colecao']
         trilha = body['trilha']
         ordem = body['ordem']
-        img_path = f'/static/imgs/{turma}/{colecao}/{trilha}/icon.jpg'
+        img_path = f'/static/imgs/{turma}/{colecao}/{trilha}/icon.jpcdcg'
         descricao = body['descricao']
         temp_teoria = body['teoria']
         teoria = []
@@ -149,8 +149,6 @@ def buscartrilha_por_colecao(colecao):
     
     try:
         response = {}
-        body = request.get_json()
-        colecao = body['colecao']
 
     except Exception as e:
         response['load'] = False
