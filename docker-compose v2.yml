@@ -1,11 +1,11 @@
-version: '3.3'  # Use a versão mais recente do Docker Compose
+version: '3.3'
 
 services:
   mongodb:
     image: mongo:latest
     container_name: my-mongodb
     ports:
-      - "27017:27017"  # Mapeie a porta diretamente, sem o uso de 127.0.0.1
+      - "27017:27017"
     volumes:
       - mongodb_data:/data/db
     environment:
@@ -14,20 +14,14 @@ services:
 
   flask-app:
     build:
-      context: .  # Use o Dockerfile padrão no mesmo diretório
+      context: .
     container_name: my-flask-app
     ports:
       - "80:80"
-    depends_on:
+    links:
       - mongodb
     environment:
       MONGODB_URI: mongodb://debugduck:duckduckgo@mongodb:27017
-    networks:
-      - my-network
-
-networks:
-  my-network:
-    driver: bridge
 
 volumes:
   mongodb_data:
