@@ -17,6 +17,7 @@ try:
     mongoClient = pymongo.MongoClient(app.config['MONGO_URI'])
     mongoDB = mongoClient["ARduck"]
     normal_msg('Banco conectado', mongoDB)
+    normal_msg('Conexoes:', mongoDB.list_collection_names())
    
 except Exception as e:
     erro_msg("Ao conectar no Mongo DB", e)
