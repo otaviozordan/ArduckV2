@@ -69,7 +69,7 @@ def signup():
         for colecao in colecoes:
             trilhas = listar_trilhas_por_colecao(turma=turma, colecao=colecao)
             for trilha_nome in trilhas:
-                trilha_obj = load_trilha_por_colecao_nome(current_user.turma, colecao=colecao, nome=trilha_nome)
+                trilha_obj = load_trilha_por_colecao_nome(turma=turma, colecao=colecao, nome=trilha_nome)
                 trilha_obj.syncprogresso(usuario=usuario.email)
 
                 if trilha_obj.progressivo:
