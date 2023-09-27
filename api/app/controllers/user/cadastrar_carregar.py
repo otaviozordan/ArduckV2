@@ -64,18 +64,18 @@ def signup():
         return Response(json.dumps(response), status=500, mimetype="application/json")
     
     try:
-        #Sincroniza permissoes das trilhas existentes dependendo se a trilha tem progressivo
-        colecoes = listar_nomes_colecoes_por_turma(turma=turma)
-        for colecao in colecoes:
-            trilhas = listar_trilhas_por_colecao(turma=turma, colecao=colecao)
-            for trilha_nome in trilhas:
-                trilha_obj = load_trilha_por_colecao_nome(turma=turma, colecao=colecao, nome=trilha_nome)
-                trilha_obj.syncprogresso(usuario=email)
-
-                if trilha_obj.progressivo:
-                    trilha_obj.syncpermissoes(usuario=email, habilitado=False)
-                else:
-                    trilha_obj.syncpermissoes(usuario=email, habilitado=True)
+        ##Sincroniza permissoes das trilhas existentes dependendo se a trilha tem progressivo
+        #colecoes = listar_nomes_colecoes_por_turma(turma=turma)
+        #for colecao in colecoes:
+        #    trilhas = listar_trilhas_por_colecao(turma=turma, colecao=colecao)
+        #    for trilha_nome in trilhas:
+        #        trilha_obj = load_trilha_por_colecao_nome(turma=turma, colecao=colecao, nome=trilha_nome)
+        #        trilha_obj.syncprogresso(usuario=email)
+#
+        #        if trilha_obj.progressivo:
+        #            trilha_obj.syncpermissoes(usuario=email, habilitado=False)
+        #        else:
+        #            trilha_obj.syncpermissoes(usuario=email, habilitado=True)
         response = {'create':True, 'usuario':usuario.to_json()}
         return Response(json.dumps(response), status=200, mimetype="application/json")
     
