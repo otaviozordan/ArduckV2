@@ -347,17 +347,27 @@ def cadastrarprogresso():
     
     try:
         trilha_obj = load_trilha_por_colecao_nome(current_user.turma, colecao=colecao, nome=trilha)
-        trilha_obj.setprogresso(usuario=current_user.email, elemento=elemento)
+
+        if not trilha_obj:
+            response = {}
+            response['set'] = False
+            response['Retorno'] = 'Essa trilha nao existe'
+            return Response(json.dumps(response), status=400, mimetype="application/json") 
         
-        response['set']=True
-        return Response(json.dumps(response), status=200, mimetype="application/json") 
+        x = trilha_obj.setprogresso(usuario=current_user.email, elemento=elemento)
+        if not x:
+            response['set']=True
+            return Response(json.dumps(response), status=200, mimetype="application/json")
+        
+        response = {'set':False, 'Erro':x}
+        return Response(json.dumps(response), status=500, mimetype="application/json")
        
     except Exception as e:
         response = {}
         response['set'] = False
-        response['Retorno'] = 'Elemento nao encontrado'         
+        response['Retorno'] = 'Erro ao setar permissões'         
         response['erro'] = str(e)
-        erro_msg('Erro ao regs=istrar progresso',e)
+        erro_msg('Erro ao registrar progresso',e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
 
 @app.route('/verificarmedidas', methods=['POST'])
@@ -485,3 +495,38 @@ def verificarprogresso_turma():
         response['erro'] = str(e)
         erro_msg('Erro ao buscar progressos',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
+    
+
+@app.route('/deletar_trilha', methods=['POST'])
+def deletar_trilha():
+    auth = authenticate('log')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+    
+    try:
+        response = {}
+        body = request.get_json()
+        colecao = body['colecao']
+        nome = body['trilha']
+
+    except Exception as e:
+        response['load'] = False
+        response['Retorno'] = 'Parametros invalidos ou ausentes'         
+        response['erro'] = str(e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")
+    
+    try:
+        delete_trilha(turma=current_user.turma, colecao=colecao, nome_trilha=nome)
+        
+        response = {
+            'delet':True,
+        }
+        return Response(json.dumps(response), status=200, mimetype="application/json")
+    
+    except Exception as e:
+        response = {}
+        response['delet'] = False
+        response['Retorno'] = 'Elemento nao encontrado ao deletar trilha'         
+        response['erro'] = str(e)
+        erro_msg('Elemento nao encontrado ao deletar trilha',e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")

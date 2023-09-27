@@ -284,30 +284,38 @@ class Trilha():
             propriedades = progresso_usuario["progresso"][self.turma][self.colecao][self.nome]
             if parts[0] == 'quiz':
                 # Verifica se a entrada contém a informação de acerto ou erro
-                if len(parts) == 3 and parts[2].lower() == 'true':
+                if len(parts) != 3:
+                    return "Quiz espera-se: 'quiz/<numero>/<bool>'"
+                if parts[2].lower() == 'true':
                     print(progresso_usuario)
                     print(int(parts[1]))
                     propriedades['quiz']['acertos'].append(int(parts[1]))
                 else:
                     propriedades['quiz']['erros'].append(int(parts[1]))
-    
+
             elif parts[0] == 'validacao_pratica':
+                if len(parts) != 2:
+                    return "Validacao pratica espera-se: 'validacao_pratica/<bool>'"
                 # Verifica se a entrada contém a informação de acerto ou erro
-                if len(parts) == 2 and parts[1].lower() == 'true':
+                if parts[1].lower() == 'true':
                     propriedades['validacao_pratica']['acertos'].append(bool(parts[1]))
                 else:
                     propriedades['validacao_pratica']['erros'].append(bool(parts[1]))
     
             elif parts[0] == 'ar':
+                if len(parts) != 2:
+                    return "AR pratica espera-se: 'ar/<bool>'"
                 # Verifica se a entrada contém a informação de acerto ou erro
-                if len(parts) == 2 and parts[1].lower() == 'true':
+                if parts[1].lower() == 'true':
                     propriedades['ar']['acertos'].append(bool(parts[1]))
                 else:
                     propriedades['ar']['erros'].append(bool(parts[1]))
     
             elif parts[0] == 'teoria':
+                if len(parts) != 2:
+                    return "Teoria pratica espera-se: 'teoria/<bool>'"
                 # Verifica se a entrada contém a informação de acerto ou erro
-                if len(parts) == 2 and parts[1].lower() == 'true':
+                if parts[1].lower() == 'true':
                     propriedades['teoria']['acertos'].append(bool(parts[1]))
                 else:
                     propriedades['teoria']['erros'].append(bool(parts[1]))
@@ -318,9 +326,10 @@ class Trilha():
                 {"$set": {"progresso": progresso_usuario["progresso"]}},
                 upsert=True  # Insere um novo documento se não existir
             )
-    
+            return False
         except Exception as e:
             erro_msg("Erro ao sincronizar progresso para o usuário", e)
+            return e 
     
 
 def load_trilha_por_colecao_nome(turma, colecao, nome):
@@ -342,6 +351,7 @@ def load_trilha_por_colecao_nome(turma, colecao, nome):
                 nome=nome,
                 ordem=trilha_data[turma][colecao][nome]['ordem'],
                 img_path=trilha_data[turma][colecao][nome]['img_path'],
+                img_colection=trilha_data[turma][colecao][nome]['img_colection'],
                 descricao=trilha_data[turma][colecao][nome]['descricao'],
                 quiz=trilha_data[turma][colecao][nome]['options']['quiz'],
                 teoria=trilha_data[turma][colecao][nome]['options']['teoria'],
@@ -352,10 +362,10 @@ def load_trilha_por_colecao_nome(turma, colecao, nome):
             )
             return trilha
         else:
-            return None
+            return False
     except Exception as e:
         erro_msg("Erro ao carregar trilha", e)
-        return None
+        return False
         
 def load_trilhas_por_colecao(turma, colecao):
     try:
@@ -483,3 +493,18 @@ def buscar_nomes_colecoes_por_turma_com_imagem(turma):
     except Exception as e:
         erro_msg("Erro ao listar nomes das coleções por turma", e)
         return {}
+
+def delete_trilha(turma, colecao, nome_trilha):
+    try:
+        # Construa o filtro para encontrar a trilha a ser excluída no DB Trilha
+        filtro = {
+            turma + '.' + colecao + '.' + nome_trilha: {
+                "$exists": True
+            }
+        }
+
+        # Use delete_one para remover a trilha
+        resultado = mongoDB.Trilhas.delete_one(filtro)        
+
+    except Exception as e:
+        erro_msg("Erro ao excluir trilha", e)
