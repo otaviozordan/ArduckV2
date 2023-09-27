@@ -447,3 +447,39 @@ def listar_nomes_colecoes_por_turma(turma):
     except Exception as e:
         erro_msg("Erro ao listar nomes das coleções por turma", e)
         return []
+
+def buscar_nomes_colecoes_por_turma_com_imagem(turma):
+    try:
+        # Consulta o banco de dados para obter as trilhas da turma específica
+        trilhas_por_turma = mongoDB.Trilhas.find(
+            {
+                turma: {
+                    "$exists": True
+                }
+            }
+        )
+
+        colecoes_return = {}
+        
+        for trilhas_turma in trilhas_por_turma:
+            trilhas_da_turma = trilhas_turma[turma]
+            for colecao in trilhas_da_turma:
+                colecao_dic = trilhas_turma[turma][colecao]
+
+                # Obtém a lista de chaves do dicionário 'colecao_dic'
+                chaves = list(colecao_dic.keys())
+
+                # Obtém a última chave do dicionário 'colecao_dic'
+                ultima_chave = chaves[-1]
+
+                # Obtém o valor correspondente à última chave
+                ultimo_item_valor = colecao_dic[ultima_chave]
+
+                # Verifica se 'ultimo_item_valor' é um dicionário e se contém a chave 'img_colection'
+                if isinstance(ultimo_item_valor, dict) and 'img_colection' in ultimo_item_valor:
+                    colecoes_return[colecao] = ultimo_item_valor['img_colection']
+
+        return colecoes_return  # Converte o conjunto de volta para uma lista
+    except Exception as e:
+        erro_msg("Erro ao listar nomes das coleções por turma", e)
+        return {}

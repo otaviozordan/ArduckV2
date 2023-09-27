@@ -56,13 +56,12 @@ function updateGraph(data) {
 
 function addUserToTable(data) {
   var table = $('.users-table');
-  var ele = '<div class="users-item"><div class="table-item noflex">' + data['id'] + '</div><div class="table-item">' + data['nome'] + '</div><div class="table-item">' + data['email'] + '</div><div class="table-item">' + data['privilegio'] + '</div><div class="table-item">' + data['turma'] + '<div class="user-edit-controls"><a href="#" class="table-edit-button">Edit</a></div></div></div>';
+  var ele = '<div class="users-item"><div class="table-item noflex">' + data['nome'] + '</div><div class="table-item">' + data['email'] + '</div><div class="table-item">' + data['privilegio'] + '</div><div class="table-item">' + data['turma'] + '<div class="user-edit-controls"><a href="#" class="table-edit-button">Edit</a></div></div></div>';
   table.append(ele);
 }
 
 var tempData = {};
 
-// Função para carregar a lista de usuários através de uma requisição AJAX
 function carregarUsuariosParaTemp() {
   fetch('/buscarusuarios_turma_usuario')
     .then(response => {
@@ -72,14 +71,19 @@ function carregarUsuariosParaTemp() {
       return response.json();
     })
     .then(data => {
-      // Atribui os dados de usuários à variável tempData
-      tempData = data;
-      // Atualiza o gráfico ou realiza outras operações com os dados, se necessário
-      updateGraph(tempData);
-      // Adiciona os usuários à tabela, se necessário
-      $.each(tempData, function (i, item) {
-        addUserToTable(tempData[i]);
-      });
+      // Verifica se a resposta contém o array "usuarios"
+      if (data.usuarios && Array.isArray(data.usuarios)) {
+        // Atribui os dados de usuário à variável tempData
+        tempData = data.usuarios;
+        // Atualiza o gráfico ou realiza outras operações com os dados, se necessário
+        updateGraph(tempData);
+        // Adiciona usuários à tabela, se necessário
+        $.each(tempData, function (i, item) {
+          addUserToTable(tempData[i]);
+        });
+      } else {
+        console.error('Os dados da resposta estão faltando o array "usuarios".');
+      }
     })
     .catch(error => {
       // Lida com erros

@@ -103,7 +103,7 @@ def listar_colecoes():
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
     
-    colecoes = listar_nomes_colecoes_por_turma(turma=current_user.turma)
+    colecoes = buscar_nomes_colecoes_por_turma_com_imagem(turma=current_user.turma)
     return Response(json.dumps({'busca':True, 'colecoes':colecoes}), status=200, mimetype="application/json")    
 
 
