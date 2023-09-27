@@ -6,3 +6,8 @@
 [2023-09-22 10:14:46] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
 [2023-09-22 10:15:43] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
 [2023-09-22 10:15:43] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-27 08:56:33] [INFO] Banco conectado -> Database(MongoClient(host=['mongodb:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-27 08:57:28] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-27 08:57:28] [INFO] Conexoes: -> ['Usuarios', 'Progresso', 'Permissoes', 'Trilhas']
+[2023-09-27 08:57:29] [INFO] Banco conectado -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-09-27 08:57:29] [INFO] Conexoes: -> ['Usuarios', 'Progresso', 'Permissoes', 'Trilhas']
