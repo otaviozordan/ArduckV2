@@ -53,12 +53,13 @@ from jsonschema import validate, ValidationError
 #}
 
 class Trilha():
-    def __init__(self, turma, colecao, nome, ordem, img_path, descricao, quiz, teoria, ar, validacao_pratica, progressivo, autor):
+    def __init__(self, turma, colecao, nome, ordem, img_path, img_colection, descricao, quiz, teoria, ar, validacao_pratica, progressivo, autor):
         self.turma = turma
         self.colecao = colecao
         self.nome = nome
         self.ordem = ordem
         self.img_path = img_path
+        self.img_colection = img_colection
         self.descricao = descricao
         self.quiz = quiz
         self.teoria = teoria
@@ -70,6 +71,7 @@ class Trilha():
         self.parametros = {
             'ordem':ordem,
             'img_path':img_path,
+            'img_colection':img_colection,
             'descricao': descricao,
             'options':{
                 'quiz':quiz,
@@ -87,6 +89,7 @@ class Trilha():
         "properties": {
             "ordem": {"type": "integer"},
             "img_path": {"type": "string"},
+            "img_colection": {"type": "string"},
             "descricao": {"type": "string"},
             "options": {
                 "type": "object",

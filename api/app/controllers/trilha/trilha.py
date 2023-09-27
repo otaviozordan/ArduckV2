@@ -21,7 +21,11 @@ def cadastrartrilha():
         colecao = body['colecao']
         trilha = body['trilha']
         ordem = body['ordem']
-        img_path = f'/static/imgs/{turma}/{colecao}/{trilha}/icon.jpcdcg'
+        img = body['img']
+        img_path = body['img_path'] 
+
+        #img_path = f'/static/imgs/{turma}/{colecao}/{trilha}/icon.jpcdcg'
+
         descricao = body['descricao']
         temp_teoria = body['teoria']
         teoria = []
@@ -44,6 +48,7 @@ def cadastrartrilha():
         trilha = Trilha(
             turma=turma,
             colecao=colecao,
+            img_colection=img,
             nome=trilha,
             ordem=ordem,
             img_path=img_path,
