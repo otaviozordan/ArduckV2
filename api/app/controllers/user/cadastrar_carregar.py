@@ -115,7 +115,7 @@ def buscarusuarios_turma_usuario():
 
 @app.route('/deletar_usuario', methods=['POST'])
 def deletar_usuario():
-    auth = authenticate('administrador')
+    auth = authenticate('professor')
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
     
