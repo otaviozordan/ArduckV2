@@ -112,3 +112,41 @@ def buscarusuarios_turma_usuario():
     turma = current_user.turma
     usuarios = buscar_usuarios_por_turma(turma=turma)
     return Response(json.dumps({'usuarios':usuarios}), status=200, mimetype="application/json")
+
+@app.route('/deletar_usuario', methods=['POST'])
+def deletar_usuario():
+    auth = authenticate('administrador')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+    
+    try:
+        response = {}
+        body = request.get_json()
+        email = body['email']
+
+    except Exception as e:
+        response['load'] = False
+        response['Retorno'] = 'Parametros invalidos ou ausentes'         
+        response['erro'] = str(e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")
+    
+    try:
+        x = delete_usuario(email=email)
+        if x.deleted_count:
+            response = {
+                'delet':True,
+            }
+        else:
+            response = {
+                'delet':False,
+                'Retorno':'Usuario nao existe'
+            }            
+        return Response(json.dumps(response), status=200, mimetype="application/json")
+    
+    except Exception as e:
+        response = {}
+        response['delet'] = False
+        response['Retorno'] = 'Usuario nao deletado'         
+        response['erro'] = str(e)
+        erro_msg('Elemento nao encontrado ao deletar trilha',e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")

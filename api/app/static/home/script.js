@@ -24,40 +24,27 @@ $('body').on('click', '[data-dialog-action]', function () {
   }
 });
 
-function updateGraph(data) {
-  $('.graph .bar[data-day]').each(function () {
-    var day = $(this).data('day');
-    var barH = $(this).height();
-    switch (day) {
-      case 'sunday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'monday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'tuesday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'wednesday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'thursday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'friday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-      case 'saturday':
-        $(this).find('.bar-content').css('height', (barH / 100) * data[day] + 'px');
-        break;
-    }
-  });
-}
-
 function addUserToTable(data) {
   var table = $('.users-table');
   var ele = '<div class="users-item"><div class="table-item noflex">' + data['nome'] + '</div><div class="table-item">' + data['email'] + '</div><div class="table-item">' + data['privilegio'] + '</div><div class="table-item">' + data['turma'] + '<div class="user-edit-controls"><a href="#" class="table-edit-button">Edit</a></div></div></div>';
   table.append(ele);
+
+  // Selecione o botão "Editar" dentro da linha recém-adicionada
+  var editButton = table.find('.table-edit-button:last');
+
+  // Adicione um evento de clique ao botão "Editar"
+  editButton.on('click', function () {
+    // Quando o botão "Editar" é clicado, obtenha o email do usuário da linha
+    var email = data['email'];
+
+    // Atualize o conteúdo do elemento "username" com o email do usuário
+    $('#username').text(email);
+  });
+}
+
+function atualizaContador(nun){
+  var usernameElement = document.getElementById("contador-usuarios");
+  usernameElement.innerHTML = nun;
 }
 
 var tempData = {};
@@ -75,8 +62,8 @@ function carregarUsuariosParaTemp() {
       if (data.usuarios && Array.isArray(data.usuarios)) {
         // Atribui os dados de usuário à variável tempData
         tempData = data.usuarios;
-        // Atualiza o gráfico ou realiza outras operações com os dados, se necessário
-        updateGraph(tempData);
+        nunUsers = Object.keys(tempData).length;
+        atualizaContador(nunUsers);
         // Adiciona usuários à tabela, se necessário
         $.each(tempData, function (i, item) {
           addUserToTable(tempData[i]);
@@ -91,9 +78,51 @@ function carregarUsuariosParaTemp() {
     });
 }
 
+function definirNome(nome) {
+  var usernameElement = document.getElementById("nome-logado");
+  usernameElement.innerHTML = nome;
+}
+
+function definirPrivilegio(privilegio) { 
+  var usernameElement = document.getElementById("privilegio-logado");
+  usernameElement.innerHTML = privilegio;
+}
+
+function definirTurma(turma) { 
+  var usernameElement = document.getElementById("turma-logado");
+  usernameElement.innerHTML = turma;
+}
+
+function whoami() {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", '/whoami', true); // Send data to the same URL
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 401 || xhr.status === 200) {
+        // Handle successful response
+      } else {
+        // Handle error response
+        alert("Error submitting form data");
+      }
+    }
+  };
+  xhr.send();
+  xhr.onload = function () {
+    var jsonResult = JSON.parse(xhr.response);
+    nome = jsonResult.usuario.nome
+    definirNome(nome);
+    turma = jsonResult.usuario.turma
+    definirTurma(turma);
+    privilegio = jsonResult.usuario.privilegio
+    definirPrivilegio(privilegio);
+  };
+};
+
 // Chama a função para carregar usuários quando a página é carregada
 window.onload = function () {
   carregarUsuariosParaTemp();
+  whoami();
 };
 
 $('body').on('click', '.users-item:not(.header)', function () {
@@ -131,3 +160,96 @@ function logout() {
       console.error(error);
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Referências aos elementos HTML
+  const deleteUserBtn = document.getElementById("deleteUserBtn");
+  const checkProgressBtn = document.getElementById("checkProgressBtn");
+
+
+  // Função para excluir o usuário
+  function deleteUser() {
+    const confirmDelete = confirm("Tem certeza de que deseja excluir este usuário?");
+    if (confirmDelete) {
+      var usernameElement = document.getElementById("username");
+      email = usernameElement.textContent
+      var formData = {
+        email: email,
+      };
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", '/deletar_usuario', true); // Send data to the same URL
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 401 || xhr.status === 200) {
+            // Handle successful response
+          } else {
+            // Handle error response
+            alert("Error submitting form data");
+          }
+        }
+      };
+      xhr.send(JSON.stringify(formData));
+      xhr.onload = function () {
+        var jsonResult = JSON.parse(xhr.response);
+        if (jsonResult.delet) {
+          alert("Deletado com sucesso")
+          location.reload();
+        }
+        else {
+          alert("Não excluido: " + jsonResult.mensagem)
+        }
+      };
+    }
+  }
+
+  // Função para verificar o progresso do usuário
+  function checkProgress() {
+    alert("Verificando progresso do usuário...");
+    fetch('/verificarprogresso_turma')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro na requisição');
+        }
+        return response.json();
+      })
+      .then(data => {
+        var usernameElement = document.getElementById("username");
+        email = usernameElement.textContent
+        progresso_user = data.progressos;
+
+        // Selecione o elemento onde você deseja exibir os dados
+        var progressoElement = document.querySelector(".progresso");
+
+        // Verifique se o endereço de e-mail existe nos dados
+        if (progresso_user[email]) {
+          // Acesse os dados associados ao endereço de e-mail
+          var userData = progresso_user[email];
+
+          // Use JSON.stringify com espaçamento para formatar o JSON
+          var progressoJSONText = JSON.stringify(userData, null, 2);
+
+          // Substitua caracteres especiais por entidades HTML para exibição no HTML
+          progressoJSONText = progressoJSONText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+          // Defina o conteúdo HTML do elemento "progresso" com o JSON formatado
+          progressoElement.innerHTML = "<pre>" + progressoJSONText + "</pre>";
+
+          // Defina o conteúdo HTML do elemento "progresso" com a representação de dados
+          progressoElement.innerHTML = progressoTexto;
+        } else {
+          // Se o endereço de e-mail não existir nos dados, exiba uma mensagem de erro
+          progressoElement.innerHTML = "Endereço de e-mail não encontrado.";
+        }
+      })
+      .catch(error => {
+        // Lida com erros
+        console.error(error);
+      });
+  }
+
+  // Adiciona ouvintes de eventos aos botões
+  deleteUserBtn.addEventListener("click", deleteUser);
+  checkProgressBtn.addEventListener("click", checkProgress);
+});

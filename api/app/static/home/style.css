@@ -327,7 +327,7 @@ html, body {
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  background: var(--status-red);
+  background: var(--status-green);
   top: 50%;
   left: 100%;
   transform: translateY(-50%);
@@ -850,4 +850,29 @@ html, body {
   100% {
     background: var(--accent-primary);
   }
+}
+
+.container .content .page .grid .user-edit .user-edit-btn {
+  display: inline-block;
+  position: relative;
+  margin: 5px 0;
+  padding: 0 20px;
+  color: var(--text-primary);
+  background: var(--accent-primary);
+  height: 40px;
+  line-height: 40px;
+  text-decoration: none;
+  transition: all 0.22s ease;
+}
+
+.container .content .page .grid .user-edit .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progresso {
+  max-height: 300px; /* Defina a altura máxima desejada */
+  overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
+  margin-left: 50px;
 }

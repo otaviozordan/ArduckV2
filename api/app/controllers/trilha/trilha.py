@@ -499,7 +499,7 @@ def verificarprogresso_turma():
 
 @app.route('/deletar_trilha', methods=['POST'])
 def deletar_trilha():
-    auth = authenticate('log')
+    auth = authenticate('administrador')
     if auth:
         return Response(json.dumps(auth), status=401, mimetype="application/json")
     

@@ -1,7 +1,8 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash, Response
-from flask_login import LoginManager, login_user, login_required, logout_user
-from app.models.userModel import Usuario, buscar_email
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from app.models.userModel import *
+from app.controllers import authenticate
 import json
 
 @app.route('/login', methods=['POST'])
@@ -34,4 +35,16 @@ def login():
 def logout():
     logout_user()
     response = {"login": False, "Mensagem:":"Usuario desconectado"}
+    return Response(json.dumps(response), status=200, mimetype="application/json")
+
+@app.route('/whoami', methods=['GET'])
+def whoami():
+    auth = authenticate('log')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+    
+    user = buscar_email(email=current_user.email)
+    response = {}
+    response['login'] = True
+    response['usuario'] = user.to_json()
     return Response(json.dumps(response), status=200, mimetype="application/json")

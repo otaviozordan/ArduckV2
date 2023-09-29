@@ -148,3 +148,16 @@ def buscar_progresso_do_usuario(email):
 def email_existe(email):
     usuario = buscar_email(email)
     return usuario is not None
+
+def delete_usuario(email):
+    try:
+        # Construa o filtro para encontrar a trilha a ser excluída no DB Trilha
+        filtro = {
+            'email': email
+        }
+
+        # Use delete_one para remover a trilha
+        resultado = mongoDB.Usuarios.delete_one(filtro)        
+        return resultado
+    except Exception as e:
+        erro_msg("Erro ao excluir trilha", e)
