@@ -26,7 +26,7 @@ $('body').on('click', '[data-dialog-action]', function () {
 
 function addUserToTable(data) {
   var table = $('.users-table');
-  var ele = '<div class="users-item"><div class="table-item noflex">' + data['nome'] + '</div><div class="table-item">' + data['email'] + '</div><div class="table-item">' + data['privilegio'] + '</div><div class="table-item">' + data['turma'] + '<div class="user-edit-controls"><a href="#" class="table-edit-button">Edit</a></div></div></div>';
+  var ele = '<div class="users-item"><div class="table-item">' + data['nome'] + '</div><div class="table-item">' + data['email'] + '</div><div class="table-item">' + data['privilegio'] + '</div><div class="table-item">' + data['turma'] + '<div class="user-edit-controls"><a href="#" class="table-edit-button">Edit</a></div></div></div>';
   table.append(ele);
 
   // Selecione o botão "Editar" dentro da linha recém-adicionada
