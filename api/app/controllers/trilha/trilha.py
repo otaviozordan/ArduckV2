@@ -426,7 +426,7 @@ def verificarmedidas():
                 medida_body, escala_body = converte_para_SI(valor=int(medida_body), unidade=escala_body) 
                 print(medida_body, escala_body)
 
-                if medida_body == valor_gab:
+                if medida_body >= (valor_gab-10*valor_gab/100) and medida_body <= (valor_gab+10*valor_gab/100):
                     response = {
                     'validado':True,
                     'correto':True,
