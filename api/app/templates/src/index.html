@@ -6,13 +6,6 @@
         <title>ARDUCK on style</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='src/style.css') }}">
         <script src="{{ url_for('static', filename='src/script.js') }}"></script>
-
-
-
-
-
-
-
         <!-- Inicio Barra Lateral -->
         <div name="Top_Left_Bar" class="left_Bar">
 
@@ -33,14 +26,14 @@
 
     </head>
     <body>
-            <!-- Inicio Area Maior-->]
+            <!-- Inicio Area Maior-->
 
             <!--Inicio inside topicos-->
             <div id="forms01" class="forms01">
                 
                 <div>
                     <p class="descTo">Aqui você monitora as trilhas de conhecimento já criadas para a coleção criada</p>
-                    <button id="MakeTopic" class="ExtraPos">Montar Trilha</button>
+                    <button id="MakeTopic" class="MakeTopic">Montar Trilha</button>
                     <i class="str_sup">Trilhas</i>
                 </div>
                 <div class="box_config4">
@@ -395,10 +388,10 @@
         </div>
         
         <div id="duvida1" class="duvida1">
-            <img src="IO.png" width="330px" heigth="1500px">
+            <img src="{{ url_for('static', filename='src/IO.png') }}" width="330px" heigth="1500px">
         </div>
         <div id="duvida2" class="duvida2">
-            <img src="IU.png" width="440px" heigth="1500px">
+            <img src="{{ url_for('static', filename='src/IU.png') }}" width="440px" heigth="1500px">
         </div>
 
             <!-- FIm da Area Maior -->

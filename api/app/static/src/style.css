@@ -177,6 +177,19 @@
         border-width: 0px;
         border-color: #9400d3;
         width: 200px;
+    }.MakeTopic{/**/
+        position: absolute;
+        left: 225px;        /*left: 244px*/
+        top: 100px;
+        padding: 10px;
+        background:#9400d3;
+        color: #000;
+        border-radius: 4px;
+        align-items: center;
+        border-width: 0px;
+        border-color: #9400d3;
+        width: 200px;
+        visibility: hidden;
     }
     .ladin{/**/
         display: column;

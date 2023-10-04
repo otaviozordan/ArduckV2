@@ -1,8 +1,6 @@
 
 /* Fim data Criação e Edição Tópicos */
-
-cookies = ".eJwlzlEKwyAMgOG7-DyGmqhJn3aTEo1ZCysFuz6N3X2F_Qf4-T5uttGPxU3vcfabm1d1k2ts1QdlUGg1mIEmDJwJCKEqkiauGHywZGJoQNGTpAKA0VKT5KvnGCS2mEXATA0iUy-ZEQtKFiAffBdkvo7YrmqmEpWLQePkLsh59PHXyHvZt_0I9Hhusr7udbjvD_5INTk.ZRiE_g.rl_Q3KsfNJRqxrTrV6UrJZmqcPA";
-
+ /*Código do Athos*/
 /* Inicio data Criação e Edição Trilhas */
 var trilhas = [
     {
@@ -19,25 +17,42 @@ valoe = (id) => {
     regu = "/NumTrilha\(\d+)/g";
     while ((match = id.exec(id)) !== null) {
         opa = match[1]
-        /*opa = id.slice(10,12);*/
+        console.log(opa);
+        /*opa = id.slice(10,11);*/
     }
     indiceGlobTri = opa;/*Opa pega os números a partir de do carac 10 até o 12 de 'NumTrilha'+k, com k podendo ter dois caracteres */
 }
-var responseJson=[];
 
-iniLeftBar = () =>{
-        fetch('http://localhost/listar_colecoes')
-          .then(function (response) {
-            console.log(response);
-            var lido = response.json();
-            console.log("lido",lido);
-          })
-          .then(function(data) {
-            responseJson = data;
-          })
-          .catch(function (error) {
-            console.error('Erro Request:', error);
-          });    
+
+responseJson=[]
+function buscar_colecoes() {
+    console.log("Regu",opa);
+    fetch('/listar_colecoes')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Manipule os dados da resposta aqui
+            responseJson = [];
+            for (const chave in data.colecoes) {
+                if (data.colecoes.hasOwnProperty(chave)) {
+                    responseJson.push(chave);
+                }
+            }
+            console.log('As coleções são:');
+            iniLeftBar();
+        })
+        .catch(error => {
+            // Lida com erros
+            console.error(error);
+        });
+}
+
+function iniLeftBar() {
+    console.log(responseJson)
     var containerPo = document.getElementById("trilha_bar");
     console.log(containerPo)
         if(containerPo === `<div id="trilha_bar"></div>`){
@@ -57,7 +72,7 @@ iniLeftBar = () =>{
             var k=0;
             for(p=0;p<responseJson.length;p++){
                 containerPo.innerHTML += `
-                <button id="NumTrilha`+k+`" class="leftButton" onclick="valoe()>  
+                <button id="NumTrilha`+k+`" class="leftButton" onclick="valoe(id)>  
                 <a class="elements_bottom_left_bar">`+responseJson[k]+`</a>
                 </button>
                 `;
@@ -67,7 +82,7 @@ iniLeftBar = () =>{
 }
 /*Fim Barra Esquerda*/
 
-
+console.log("wdiwqnd",responseJson);
 
 
 
@@ -78,8 +93,9 @@ iniLeftBar = () =>{
     var whichJson;
 addTopicos = () => {
     whichJson = responseJson[opa];/*O nome da coleção que vc entrou, muda o nome de acordod com a coleção clicada atraves de um índice*/
+    console.log("whi",whichJson);
     var trailsJson=[];
-    var passa = 'http://localhostlocalhost/listartrilha_por_colecao/'+whichJson;
+    var passa = '/listartrilha_por_colecao/'+whichJson;
         fetch(passa)
           .then(function (response) {
             console.log(response);
@@ -87,7 +103,7 @@ addTopicos = () => {
           })
           .then(function(data) {
             trailsJson = data.trilhas;
-            console.log(trailsJson)
+            console.log("Trains",trailsJson)
           })
           .catch(function (error) {
             console.error('Erro Request:', error);
@@ -353,7 +369,7 @@ readVal = () => {/*Já Direciona os dados*/
             img: imgTri
         }
     );
-    iniLeftBar();
+    buscar_colecoes();
     console.log("Trilhas",trilhas)
 }
 /* Fim Criação Trilha */
@@ -374,13 +390,13 @@ readVal = () => {/*Já Direciona os dados*/
  validacao_pratica = {};
 
 gettingFunctions = (n) =>{
-    /*if(document.getElementById(namecoc).value === null || document.getElementById(namecoc).value === undefined){
+    if(document.getElementById('namecoc').value === null || document.getElementById('namecoc').value === undefined){
         colecao = whichJson;/*São as ultimas atualizações!*/
-    /*}
+    }
     else{
-        colecao = document.getElementById(namecoc).value;/*São as ultimas atualizações!*/
-    /*-}*/
-    colecao =  "HEllo";
+        colecao = document.getElementById('namecoc').value;/*São as ultimas atualizações!*/
+    }
+    /*colecao =  "HEllo";*/
     trilha = document.getElementById('nameTo'+n).value;
     ordem = document.getElementById('NumCol'+n).value;
     img_path = document.getElementById('img_path'+n).value;
@@ -585,7 +601,6 @@ gettingFunctions = (n) =>{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'cookies':cookies
       },
       body: JSON.stringify(TheSonOfJson)
     };
@@ -615,7 +630,7 @@ gettingFunctions = (n) =>{
     
     /*Cadastro da trilha*/
 
-    fetch('http://localhost/cadastrartrilha', opcoes)
+    fetch('/cadastrartrilha', opcoes)
       .then(function (response) {
         console.log("Funfou!")
     })
@@ -639,7 +654,7 @@ gettingFunctions = (n) =>{
     /*Ending Request to Server*/
 /*Starting Request to Server*/
 sending = () =>{
-    fetch('http://localhost/cadastrartrilha')
+    fetch('/cadastrartrilha')
       .then(function (response) {
         console.log(response);
         return response.json();
@@ -667,7 +682,7 @@ submitForm = () => {
     // You can use this JSON string (jsonFormData) to send to a server or perform other actions
     //console.log(jsonFormData);
 
-    var currentURL = "http://localhost/login"; // Substitua pela URL apropriada
+    var currentURL = "/login"; // Substitua pela URL apropriada
 var requestOptions = {
     method: 'POST',
     headers: {
@@ -706,7 +721,7 @@ var indexColection;
 
 /*Funções precisam rodar quando abre a página*/
 document.addEventListener("DOMContentLoaded", function () {
-     iniLeftBar();
+    buscar_colecoes();
     /*addTopicos();*/
     var tx0 = document.getElementById("tx0");
     var tx1 = document.getElementById("tx1");
@@ -792,7 +807,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Fazer")
         if (Make.style.visibility === "hidden" || Make.style.visibility === "") {
             // Se estiver oculta, mostre-a
-            See.style.visibility = "hidden";
+            /*See.style.visibility = "hidden";*/
             /*Init.style.visibility = "hidden";*/
             Topic.style.visibility = "hidden";
             Make.style.visibility = "visible";
