@@ -1,0 +1,380 @@
+
+
+@media screen and (min-device-width:900px){
+    body{/**/
+        background-color: #303030;
+        margin:0px;
+        color: #ffffff;
+        font-family: 'Quicksand', sans-serif;
+    }
+    .toStr{/**/
+        font-size: 18px;
+    }
+    .toStrM{/**/
+        font-size: 30px;
+        font-weight: bold;
+
+    }
+    .thins01{
+        position: flex;
+        align-content: flex-start;
+        
+    }
+    .inputsTri{/**/
+        width:300px;
+        height:20px;
+    }
+    .inputsTriDe{/**/
+        box-sizing: border-box;
+        width: 310px;
+        resize: none;
+        padding: 12px 20px;
+    }
+    .leftButton{/**/
+        margin-top: 8px;
+        margin-left: 8px;
+        border: none;
+        background-color: #272626;
+        display: grid;
+        font-family: 'Quicksand', sans-serif;
+        color:#ffffff;
+        display: grid;
+        row-gap: 10px;
+        grid-template-rows: 10px 10px 10px;
+    }
+    .LikeBack{
+        position: absolute;
+        width: 700px;
+        height: 300px;
+        left: 185px;
+        background-color:  rgba(0, 255, 0, 0.234);
+    }
+    .left_Bar{/**/
+        Border-color:#272626;
+        background-color: #272626;
+        height: 100vh;
+        width: 183px;
+        position:relative;
+        display: grid;
+        row-gap: 10px;
+        grid-template-rows: 60px 60px 60px;
+    }
+    .box_config2{/**/
+        position: absolute;
+        left: 228px;        /*left: 244px*/
+        top: 160px;
+        display: grid;
+        row-gap: 10px;
+    }
+    .box_config3t{/**/
+        position: absolute;
+        left: 228px;        /*left: 244px*/
+        top: 150px;
+        display: grid;
+        row-gap: 10px;
+        grid-template-rows: 100px;
+    }
+    .strCo{
+        font-size: 16px;
+        font-family: 'Quicksand', sans-serif;
+    }
+    .cot{/**/
+        position: relative;
+        top: 35%;
+        left: 5%;
+    }
+    .GB{/**/
+        background-color: #272626;
+        border-radius: 4px;
+        position: center;
+    }
+    .box_config4{/**/
+        position: absolute;
+        left: 260px;      /*left: 244px*/
+        top: 180px;
+        display: flex;
+    }
+    .str_list_topics_first01{
+        font-size: 18px;
+        font-family: 'Quicksand', sans-serif;
+        padding-left: 30px;
+        padding-right: 50px;
+        position: relative;
+        left: 25px;
+        text-align: center;
+    }
+    .str_list_topics_first02{
+        font-size: 18px;
+        font-family: 'Quicksand', sans-serif;
+        padding-left: 30px;
+        padding-right: 50px;
+        position: relative;
+        left: 105px;
+        text-align: center;
+    }
+    .str_list_topics_first03{
+        font-size: 18px;
+        font-family: 'Quicksand', sans-serif;
+        padding-left: 30px;
+        padding-right: 50px;
+        position: relative;
+        left:170px;
+        text-align: center;
+    }
+    .str_list_topics_first04{
+        font-size: 18px;
+        font-family: 'Quicksand', sans-serif;
+        padding-left: 30px;
+        padding-right: 50px;
+        position: relative;
+        left: 210px;
+        text-align: center;
+    }
+    .duvida1{/**/
+        visibility: hidden;
+        position:fixed;
+        top:50px;
+        right: 100px;
+    }
+    .duvida2{
+        visibility: hidden;
+        position:fixed;
+        top:25px;
+        right: 100px;
+    }
+    .box_config5{/**/
+        position: absolute;
+        left: 220px;        /*left: 244px*/
+        top: 210px;
+        display: grid;
+        row-gap: 10px;
+        grid-template-rows: 50px 50px 50px;
+    }
+    .box_config6{/**/
+        position: absolute;
+        left: 228px;        /*left: 244px*/
+        top: 28vh;
+        display: grid;
+        row-gap: 30px;
+    }
+    .box_config11{/**/
+        position: absolute;
+        left: 975px;        /*left: 244px*/
+        top: 380px;
+    }.box_config12{/**/
+        position: relative;
+        left: 385px;        /*left: 244px*/
+    }
+    .ExtraPos{/**/
+        position: absolute;
+        left: 225px;        /*left: 244px*/
+        top: 100px;
+        padding: 10px;
+        background:#9400d3;
+        color: #000;
+        border-radius: 4px;
+        align-items: center;
+        border-width: 0px;
+        border-color: #9400d3;
+        width: 200px;
+    }
+    .ladin{/**/
+        display: column;
+        column-gap: 90px;
+    }
+   .gerals{/**/
+    width:1050px;
+    display: flex;
+    column-gap: 50px;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #272626;
+   }
+   .inco_right{
+    position: relative;
+    left:-50px;
+   }
+   .gerals2{/**/
+    display: flex;
+    column-gap: 90px;
+   }
+   .gerals3{/**/
+    width:775px;
+    display: flex;
+    column-gap: 50px;
+    padding: 20px;
+    border-radius: 4px;
+   }
+   .toppo{/**/
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #272626;
+   }
+   .geralsin{/**/
+    display: flex;
+    position: relative;
+   }
+   .ques{
+    position: relative;
+    top: -10px;
+    left: -10px;
+   }
+    .ExtraPos2{/**/
+        padding: 10px;
+        background: #9400d3;
+        color: #000;
+        border-radius: 4px;
+        align-items: center;
+        border-width: 0px;
+        border-color: #9400d3;
+        width: 150px;
+    }
+    .descTo{/**/
+        position: absolute;
+        left: 550px;        /*left: 244px*/
+        top: 100px;
+        font-size: 12px;
+    }
+    .descTo2{/**/
+        position: absolute;
+        left: 550px;        /*left: 244px*/
+        top: 100px;
+        font-size: 12px;
+    }
+    .descTo3{/**/
+        position: absolute;
+        left: 550px;         /*left: 244px*/
+        top: 100px;
+        font-size: 12px;
+    }
+    .img_ini{/**/
+        position: absolute;
+        height: 45vh;
+        width: 45vw;
+        left: 25vw;
+        top: -160px;
+    }
+    .elements_top_left_bar{/**/
+        margin-top: 8px;
+        margin-left: 8px;
+        height: 50px;
+        text-decoration: none;
+        color:#ffffff;
+        display: flex;
+    }
+    .elements_bottom_left_bar{/**/
+        position: relative;
+        left: -2px;
+        font-size: 16px;
+        font-family: 'Quicksand', sans-serif;
+        color:#ffffff;
+        padding: 15px;
+        padding-left: 20px;
+        padding-right: 25px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .imags_left_bar{/**/
+        border-radius: 4px;
+        display: flex;
+    }
+    .icons_left{/**/
+        color:#ffffff;
+        position: relative;
+        top: 7px; 
+        left: 2px;
+        display: flex;
+    }
+    
+    .trilhas_pos{
+        border-width: 0px;
+        font-size: 16px;
+        font-family: 'Quicksand', sans-serif;
+        position: relative;
+        top: 3px;
+        left: 20px;
+        bottom: 5px;
+        font-weight: bolder;
+    }
+    .perfil_icon_left{/**/
+        position: absolute;
+        right: 20px;
+        top: 30px;
+        }
+
+    .str_sup{/**/
+        font-size: 20px;
+        font-family: 'Quicksand', sans-serif;
+        color:#ffffff;
+        position: absolute;
+        left: 228px;        /*left: 244px*/
+        top: 35px;
+    }
+    .perfil_icon{
+        position: absolute;
+        left: 280px;        
+        top: 35px;
+        }
+    .str_list_topics{
+        font-size: 20px;
+        font-family: 'Quicksand', sans-serif;
+        color:#ffffff;
+        position: relative;
+        left: 20px;        /*left: 244px*/
+        top: 20px;
+    }
+    .str_list_topics_first{
+        background-color: #272626;
+        border-width: 0px;
+        font-size: 26px;
+        font-family: 'Quicksand', sans-serif;
+        color:#ffffff;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        position: relative;
+        right: 20px;
+    }
+    
+    .relative_position{
+        padding-left: 30px;
+        padding-right: 80px;
+        color:#ffffff;
+        text-decoration: none;
+    }
+    .relative_positionI{
+        color:#ffffff;
+        text-decoration: none;
+    }
+
+    .relative_position1{
+        padding-left: 30px;
+        padding-right: 80px;
+        color:#ffffff;
+        text-decoration: underline #ffffff;
+    }
+
+    .alte{/**/
+        display: flex;
+        position: relative;
+        bottom: 10px;
+    }
+    .FormToLogin{
+        visibility: visible;
+    }
+    .formlario{/**/
+        visibility: hidden;
+    }
+    .noneline{/**/
+        text-decoration: none;
+    }
+    .forms01{/**/
+        visibility: hidden;
+    }
+    .forms02{/**/
+        visibility: hidden;
+    }
+    /*.formsH{/**//*
+        visibility: visible;
+    }*/
+    
+}

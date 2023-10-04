@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewpart" content="widht=devide-widht, initial-scale=1.0"/>
+        <title>ARDUCK on style</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='src/style.css') }}">
+        <script src="{{ url_for('static', filename='src/script.js') }}"></script>
+
+
+
+
+
+
+
+        <!-- Inicio Barra Lateral -->
+        <div name="Top_Left_Bar" class="left_Bar">
+
+            <div class="elements_top_left_bar" id="MakeTriL">
+                <svg class="icons_left" width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                <h1 class="trilhas_pos">Coleções</h1>
+            </div> 
+                <!-- Inicio Topicos -->
+
+            <div id="trilha_bar"></div>
+            </div>
+
+        </div>
+            <!-- Fim Barra Lateral -->
+
+
+
+
+    </head>
+    <body>
+            <!-- Inicio Area Maior-->]
+
+            <!--Inicio inside topicos-->
+            <div id="forms01" class="forms01">
+                
+                <div>
+                    <p class="descTo">Aqui você monitora as trilhas de conhecimento já criadas para a coleção criada</p>
+                    <button id="MakeTopic" class="ExtraPos">Montar Trilha</button>
+                    <i class="str_sup">Trilhas</i>
+                </div>
+                <div class="box_config4">
+                    <a >#</a>
+                    <a class="str_list_topics_first01">Nome</a>
+                    <a class="str_list_topics_first02">Quiz</a>
+                    <a class="str_list_topics_first03">Prática</a>
+                    <a class="str_list_topics_first04">AR</a>
+                </div>
+                <div id="itens_area_maior_index" class="box_config5">
+                            
+                </div>
+            </div>
+            <!--Fim inside topicos-->
+
+
+
+
+
+            
+            <!--fazendo Coleção-->
+            <!-- Inicio da Edição -->
+            <div id="forms02" class="forms02">
+                <i class="str_sup">Criando Trilhas</i>
+                <p class="descTo2">Monte suas trilhas com Quizes, Desafios Práticos e Modelos 3D para Realidade Aumentada(AR)</p>
+
+            <div class="box_config6">
+                
+                <div class="toppo">
+                <div class="gerals2">
+                <div>
+                    <p class="strCo">Nome da Trilha</p>
+                    <input class="inputsTri" type="text" id="nameTo1">
+                </div>
+                <div class="gerals2">
+                    <div>
+                    <p class="strCo">Descrição</p>
+                    <form>
+                        <textarea class="inputsTriDe" wrap="hard" type="text" id="descTri1"></textarea>
+                    </form>
+                    
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="gerals2">
+                <div>
+                    <p class="strCo">Número da Trilha</p>
+                    <input class="inputsTri" type="text" id="NumCol1">
+                </div>
+                <div>
+                    <p class="strCo">Link da Imagem Web</p>
+                    <input class="inputsTri" type="text" id="img_path1">
+                </div>
+                </div>
+                </div>
+
+                <div class="gerals">
+                <div>
+                    <p class="strCo">Primeiro Texto</p>
+                    <textarea class="inputsTriDe" type="text" id="teoria11"></textarea>
+                </div>
+                <div>
+                    <p class="strCo">Link da web da Imagem</p>
+                    <input class="inputsTri" type="text" id="img_paths11">
+                </div>
+                <div>
+                    <p class="strCo">Legenda</p>
+                    <input class="inputsTri" type="text" id="Legendo1">
+                </div>
+                <div id="tx1">
+                    <svg class="inco_right" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                </div>
+                </div>     
+                
+                <div class="gerals">
+                    <p class="strCo">Subtópicos</p>
+                    <button class="ExtraPos2" onclick="AddSub(1)">Adicionar Subtópico</button>
+                    <button class="ExtraPos2" onclick="RemoveSub(1)">Apagar Subtópico</button>
+                </div>
+                    <div id="Su1">
+                        
+
+                    </div>
+                
+                <div class="gerals">
+                <div>
+                    <p class="strCo">Texto Final</p>
+                    <textarea class="inputsTriDe" type="text" id="teoria21"></textarea>
+                </div>
+                <div>
+                    <p class="strCo">Link da web da última Imagem</p><!--lado a lado da teoria em que pertence-->
+                    <input class="inputsTri" type="text" id="img_paths21">
+                </div>
+                </div>
+
+                <div class="gerals">
+                <div class="ladin">
+                    <p class="strCo">Quiz</p>
+                    <button class="ExtraPos2" onclick="AddParts(1)">Adicionar Quiz</button>
+                    <button class="ExtraPos2" onclick="RemoveParts(1)">Apagar último Quiz</button>
+                </div>
+                <div id="comple1">
+
+                </div>
+                <div id="qu1">
+                    <svg class="inco_right" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                </div>
+                
+                </div>
+                <div class="gerals">
+                <div>
+                    <p class="strCo">Realidade Aumentada</p>
+                    <input class="inputsTri" type="checkbox" id="StateQuizAR1" onclick="desabilitaOpcaoAR(1)">
+                </div>
+                <div id="comAR1">
+
+                </div>
+                <div>
+                    <p class="strCo">Prática:</p>
+                    <input class="inputsTri" type="checkbox" id="StateQuiz1" onclick="desabilitaOpcaoPr(1)">
+                </div>
+                <div id="com1">
+                </div>
+                </div>
+                <div class="gerals">
+                <div>
+                    <button onclick="gettingFunctions(1)" class="ExtraPos2">Criar Trilha</button>
+                </div>
+                <div id="con1"></div>
+                </div>
+            </div>
+            </div>
+            <!-- Fim da Edição -->
+
+
+
+
+
+
+
+            <!--Fazendo Trilha-->
+            <!-- Inicio Area Maior-->
+        <div class="formlario" id="formlario">
+            <i class="str_sup">Coleções</i>
+            <p class="descTo3">Cria coleções para sua turma e adicione conteúdos para seus alunos</p>
+
+
+            <!-- Inicio da Edição -->
+        
+                        <!-- Inicio da Edição -->
+            <div class="box_config6">
+                
+               
+                <div class="gerals">
+                    <div>
+                        <p>Nome da Coleção:</p>
+                        <input type="text" id="namecoc" class="inputsTri">
+                    </div>
+                    <div>
+                        <p>Imagem(URL) da Coleção:</p>
+                        <input type="text" id="img_col" class="inputsTri">
+                    </div>
+                </div>
+                <div class="toppo">
+                    
+                <div class="gerals2">
+                    
+                <div>
+                    <p class="strCo">Nome da Trilha</p>
+                    <input class="inputsTri" type="text" id="nameTo0">
+                </div>
+                <div class="gerals2">
+                    <div>
+                    <p class="strCo">Descrição</p>
+                    <form>
+                        <textarea class="inputsTriDe" wrap="hard" type="text" id="descTri0"></textarea>
+                    </form>
+                    
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="gerals2">
+                <div>
+                    <p class="strCo">Número da Trilha</p>
+                    <input class="inputsTri" type="text" id="NumCol0">
+                </div>
+                <div>
+                    <p class="strCo">Imagem(URL) da Trilha</p>
+                    <input class="inputsTri" type="text" id="img_path0">
+                </div>
+                </div>
+                </div>
+
+                <div class="gerals">
+                <div>
+                    <p class="strCo">Primeiro Texto</p>
+                    <textarea class="inputsTriDe" type="text" id="teoria10"></textarea>
+                </div>
+                <div>
+                    <p class="strCo">Imagem(URL) do Texto</p>
+                    <input class="inputsTri" type="text" id="img_paths10">
+                </div>
+                <div>
+                    <p class="strCo">Legenda</p>
+                    <input class="inputsTri" type="text" id="Legendo0">
+                </div>
+                <div id="tx0">
+                    <svg class="inco_right" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                </div>
+                </div>     
+                
+                <div class="gerals">
+                    <p class="strCo">Subtópicos</p>
+                    <button class="ExtraPos2" onclick="AddSub(0)">Adicionar Subtópico</button>
+                    <button class="ExtraPos2" onclick="RemoveSub(0)">Apagar Subtópico</button>
+                </div>
+                    <div id="Su0">
+                        
+
+                    </div>
+                
+                <div class="gerals">
+                <div>
+                    <p class="strCo">Texto Final</p>
+                    <textarea class="inputsTriDe" type="text" id="teoria20"></textarea>
+                </div>
+                <div>
+                    <p class="strCo">Imagem(URL) texto</p><!--lado a lado da teoria em que pertence-->
+                    <input class="inputsTri" type="text" id="img_paths20">
+                </div>
+                </div>
+
+                <div class="gerals">
+                <div class="ladin">
+                    <p class="strCo">Quiz</p>
+                    <button class="ExtraPos2" onclick="AddParts(0)">Adicionar Quiz</button>
+                    <button class="ExtraPos2" onclick="RemoveParts(0)">Apagar último Quiz</button>
+                </div>
+                <div id="comple0">
+
+                </div>
+                <div id="qu0">
+                    <svg class="inco_right" width="25px" height="25px" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                </div>
+                </div>
+                <div class="gerals">
+                    <div>
+                        <p class="strCo">Realidade Aumentada</p>
+                        <input class="inputsTri" type="checkbox" id="StateQuizAR0" onclick="desabilitaOpcaoAR(0)">
+                    </div>
+                    <div id="comAR0">
+    
+                    </div>
+                    <div>
+                        <p class="strCo">Prática:</p>
+                        <input class="inputsTri" type="checkbox" id="StateQuiz0" onclick="desabilitaOpcaoPr(0)">
+                    </div>
+                    <div id="com0">
+                    </div>
+                    </div>
+                <div class="gerals">
+                <div>
+                    <button onclick="gettingFunctions(0)" class="ExtraPos2">Criar Coleções</button>
+                </div>
+                <div id="con0">
+
+                </div>
+                </div>
+            </div>
+            <!-- Fim da Edição -->
+                <!-- Fim da Edição -->
+                </div>
+    
+        </div>
+        
+        <!--
+        <div class="FormToLogin" id="FormToLogin">
+            <div id="itens_area_maior_ini" class="box_config2">
+
+            <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+                <span></span> <span></span> <span></span> <span></span> <span></span>
+        
+                <div class="signin">
+        
+                    <div class="content">
+        
+                        <h2>Sign In</h2>
+        
+                        <div class="form">
+        
+                            <div class="inputBox">
+        
+                                <input type="text" id="emailInput" required> <i>Email</i>
+        
+                            </div>
+        
+                            <div class="inputBox">
+        
+                                <input type="password" id="passwordInput" required> <i>Password</i>
+        
+                            </div>
+        
+                            <div class="links"> <a href="#">Forgot Password</a> <a href="/signup">Signup</a>
+        
+                            </div> 
+                            <div class="inputBox">
+                                <input type="submit" value="Login" onclick="submitForm()">>
+                            </div>
+        
+                        </div>
+        
+                    </div>
+        
+                </div>
+        
+            </section>  partial -->
+        
+        </div>
+        </div>
+        
+        <div id="duvida1" class="duvida1">
+            <img src="IO.png" width="330px" heigth="1500px">
+        </div>
+        <div id="duvida2" class="duvida2">
+            <img src="IU.png" width="440px" heigth="1500px">
+        </div>
+
+            <!-- FIm da Area Maior -->
+    </body>
+</html>
