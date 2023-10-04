@@ -1,0 +1,1 @@
+[2023-10-04 20:31:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['mongodb:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
