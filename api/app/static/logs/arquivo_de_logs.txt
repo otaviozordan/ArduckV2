@@ -335,3 +335,13 @@
 [2023-10-04 10:39:49] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
 [2023-10-04 10:42:12] [INFO] E-mail enviado para otaviozordan@gmail.com -> OK
 [2023-10-04 10:47:27] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
+[2023-10-04 11:09:31] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 11:09:31] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 11:09:32] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 11:09:32] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 11:18:15] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
+[2023-10-04 11:18:59] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
+[2023-10-04 11:28:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 11:28:23] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 11:28:24] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 11:28:24] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']

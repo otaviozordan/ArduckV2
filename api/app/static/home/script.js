@@ -310,14 +310,3 @@ function checkProgress() {
   checkProgressBtn.addEventListener("click", checkProgress);
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Selecione o ícone de "Download" pelo ID
-  var downloadIcon = document.getElementById("download-icon");
-
-  // Adicione um ouvinte de evento de clique ao ícone de "Download"
-  downloadIcon.addEventListener("click", function () {
-    // Redirecione para a página /builder
-    window.location.href = "/builder";
-  });
-});
-

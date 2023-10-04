@@ -4,7 +4,7 @@ import json
 import os
 
 def escrever_mensagem(mensagem):
-    rota = os.path.join('server', 'api', 'app', 'static', 'logs', 'arquivo_de_logs')
+    rota = os.path.join('api', 'app', 'static', 'logs', 'arquivo_de_logs')
     arquivo = open(f'{rota}.txt', 'a')
 
     from datetime import datetime
