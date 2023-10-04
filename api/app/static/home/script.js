@@ -42,7 +42,7 @@ function addUserToTable(data) {
   });
 }
 
-function atualizaContador(nun){
+function atualizaContador(nun) {
   var usernameElement = document.getElementById("contador-usuarios");
   usernameElement.innerHTML = nun;
 }
@@ -83,12 +83,12 @@ function definirNome(nome) {
   usernameElement.innerHTML = nome;
 }
 
-function definirPrivilegio(privilegio) { 
+function definirPrivilegio(privilegio) {
   var usernameElement = document.getElementById("privilegio-logado");
   usernameElement.innerHTML = privilegio;
 }
 
-function definirTurma(turma) { 
+function definirTurma(turma) {
   var usernameElement = document.getElementById("turma-logado");
   usernameElement.innerHTML = turma;
 }
@@ -204,52 +204,120 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Função para verificar o progresso do usuário
-  function checkProgress() {
-    alert("Verificando progresso do usuário...");
-    fetch('/verificarprogresso_turma')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro na requisição');
-        }
-        return response.json();
-      })
-      .then(data => {
-        var usernameElement = document.getElementById("username");
-        email = usernameElement.textContent
-        progresso_user = data.progressos;
+ // Função para verificar o progresso do usuário
+function checkProgress() {
+  // Defina a variável 'email' aqui ou de onde quer que ela venha
+  var usernameElement = document.getElementById("username");
+  email = usernameElement.textContent
 
-        // Selecione o elemento onde você deseja exibir os dados
-        var progressoElement = document.querySelector(".progresso");
-
-        // Verifique se o endereço de e-mail existe nos dados
-        if (progresso_user[email]) {
-          // Acesse os dados associados ao endereço de e-mail
-          var userData = progresso_user[email];
-
-          // Use JSON.stringify com espaçamento para formatar o JSON
-          var progressoJSONText = JSON.stringify(userData, null, 2);
-
-          // Substitua caracteres especiais por entidades HTML para exibição no HTML
-          progressoJSONText = progressoJSONText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-          // Defina o conteúdo HTML do elemento "progresso" com o JSON formatado
-          progressoElement.innerHTML = "<pre>" + progressoJSONText + "</pre>";
-
-          // Defina o conteúdo HTML do elemento "progresso" com a representação de dados
-          progressoElement.innerHTML = progressoTexto;
+  function enviar_relatorio(formData) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/gerar_relatorio', true); // Envia dados para a mesma URL
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 401 || xhr.status === 200) {
+          // Lida com a resposta de sucesso
         } else {
-          // Se o endereço de e-mail não existir nos dados, exiba uma mensagem de erro
-          progressoElement.innerHTML = "Endereço de e-mail não encontrado.";
+          // Lida com a resposta de erro
+          alert("Erro ao gerar relatório");
         }
-      })
-      .catch(error => {
-        // Lida com erros
-        console.error(error);
-      });
+      }
+    };
+    xhr.send(JSON.stringify(formData));
+    xhr.onload = function () {
+      var jsonResult = JSON.parse(xhr.response);
+      if (jsonResult.gen) {
+        window.open(jsonResult.path, "_blank");
+      }
+      else {
+        alert("Não enviado, erro: " + jsonResult.mensagem)
+      }
+    };
   }
+ 
+  // Caixa de diálogo personalizada com botões personalizados
+  Swal.fire({
+    title: "Deseja enviar em um email?",
+    icon: "question",
+    backgrund:"black",
+    showCancelButton: true,
+    confirmButtonText: "Enviar por email",
+    cancelButtonText: "Não enviar",
+    customClass: {
+      confirmButton: 'custom-confirm-button',
+      cancelButton: 'custom-cancel-button'
+    }
+  }).then((result) => {
+    if (result.value) {
+      // Caixa de diálogo personalizada para escolher o destino do email
+      Swal.fire({
+        title: "Deseja receber no seu email? Se não, informar outro",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Receber no meu email",
+        cancelButtonText: "Informar outro email",
+        customClass: {
+          confirmButton: 'custom-confirm-button',
+          cancelButton: 'custom-cancel-button'
+        },
+
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire("Relatório enviado ao seu email pessoal.");
+          var formData = { send: true, email_aluno: email };
+          enviar_relatorio(formData);
+        } else {
+          // Caixa de diálogo personalizada para informar outro email
+          Swal.fire({
+            title: "Digite o endereço de email para o qual deseja enviar o email:",
+            input: "text",
+            confirmButtonText: "Enviar",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            customClass: {
+              confirmButton: 'custom-confirm-button',
+              cancelButton: 'custom-cancel-button'
+            },
+            inputValidator: (value) => {
+              if (!value) {
+                return "Você deve inserir um endereço de email válido.";
+              }
+            },
+          }).then((result) => {
+            if (result.value) {
+              Swal.fire(`Relatório enviado para ${result.value}.`);
+              var formData = { 'send': true, 'email_professor': result.value, 'email_aluno': email };
+              enviar_relatorio(formData);
+            } else {
+              Swal.fire("Email não enviado.");
+              var formData = { 'send': false, 'email_aluno': email };
+              enviar_relatorio(formData);
+            }
+          });
+        }
+      });
+    } else {
+      Swal.fire("Email não enviado.");
+      var formData = { 'send': false, 'email_aluno': email };
+      enviar_relatorio(formData);
+    }
+  });
+}
 
   // Adiciona ouvintes de eventos aos botões
   deleteUserBtn.addEventListener("click", deleteUser);
   checkProgressBtn.addEventListener("click", checkProgress);
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Selecione o ícone de "Download" pelo ID
+  var downloadIcon = document.getElementById("download-icon");
+
+  // Adicione um ouvinte de evento de clique ao ícone de "Download"
+  downloadIcon.addEventListener("click", function () {
+    // Redirecione para a página /builder
+    window.location.href = "/builder";
+  });
+});
+

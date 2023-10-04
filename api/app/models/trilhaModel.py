@@ -195,142 +195,122 @@ class Trilha():
             erro_msg("Erro ao sincronizar trilhas para o usuário", e)
 
     def syncprogresso(self, usuario):
-            try:
-                # Consulta o documento de permissões do usuário
-                progresso_usuario = mongoDB.Progresso.find_one({"usuario": usuario})
-
-                if not progresso_usuario:
-                    # Se o documento de permissões não existir, crie-o com uma estrutura vazia para permissões
-                    progresso_usuario = {
-                        "usuario": usuario,
-                        "turma":self.turma,
-                        "progresso": {}
-                    }
-
-                # Crie uma estrutura de permissões para a turma se não existir
-                if self.turma not in progresso_usuario["progresso"]:
-                    progresso_usuario["progresso"][self.turma] = {}
-
-                # Crie uma estrutura de permissões para a coleção se não existir
-                if self.colecao not in progresso_usuario["progresso"][self.turma]:
-                    progresso_usuario["progresso"][self.turma][self.colecao] = {}
-
-                # Atualize as permissões do usuário com as trilhas sincronizadas
-                opcoes = self.parametros['options']
-
-                progresso = {
-                    'ar': {
-                        "acertos":[],
-                        "erros":[]
-                    },
-                    'validacao_pratica': {
-                        "acertos":[],
-                        "erros":[]
-                    },
-                    'teoria': {
-                        "acertos":[],
-                        "erros":[]
-                    },
-                    'quiz': {
-                        "acertos":[],
-                        "erros":[]
-                    },
-                }
-
-                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = progresso
-
-                # Atualize ou insira o documento de progresso no banco de dados
-                mongoDB.Progresso.update_one(
-                    {"usuario": usuario},
-                    {"$set": {"progresso": progresso_usuario["progresso"]}},
-                    upsert=True  # Insere um novo documento se não existir
-                )
-
-            except Exception as e:
-                erro_msg("Erro ao sincronizar progresso para o usuário", e)
-    
-    def setprogresso(self, usuario, elemento):
         try:
             # Consulta o documento de progresso do usuário
             progresso_usuario = mongoDB.Progresso.find_one({"usuario": usuario})
-    
+
             if not progresso_usuario:
-                # Se o documento de progresso não existir, crie-o com uma estrutura vazia para progresso
+                # Se o documento de progresso não existir, crie-o com uma estrutura vazia
                 progresso_usuario = {
                     "usuario": usuario,
                     "turma": self.turma,
-                    "progresso": {}
+                    "progresso": {
+                        'colecoes': [
+                            {
+                                'nome': self.colecao,
+                                'trilhas': []
+                            }
+                        ]
+                    }
                 }
-    
-            # Crie uma estrutura de progresso para a turma se não existir
-            if self.turma not in progresso_usuario["progresso"]:
-                progresso_usuario["progresso"][self.turma] = {}
-    
-            # Crie uma estrutura de progresso para a coleção se não existir
-            if self.colecao not in progresso_usuario["progresso"][self.turma]:
-                progresso_usuario["progresso"][self.turma][self.colecao] = {}
-    
-            # Verifique se já existe um documento de progresso para a trilha
-            if self.nome not in progresso_usuario["progresso"][self.turma][self.colecao]:
-                progresso_usuario["progresso"][self.turma][self.colecao][self.nome] = {
-                    'quiz': {'acertos': [], 'erros': []},
-                    'validacao_pratica': {'acertos': [], 'erros': []},
-                    'ar': {'acertos': [], 'erros': []},
-                    'teoria': {'acertos': [], 'erros': []}
-                }  # Crie a estrutura vazia
-    
-            # Divide a entrada usando '/' como separador
-            parts = elemento.split('/')
-            propriedades = progresso_usuario["progresso"][self.turma][self.colecao][self.nome]
-            if parts[0] == 'quiz':
-                # Verifica se a entrada contém a informação de acerto ou erro
-                if len(parts) != 3:
-                    return "Quiz espera-se: 'quiz/<numero>/<bool>'"
-                if parts[2].lower() == 'true':
-                    print(progresso_usuario)
-                    print(int(parts[1]))
-                    propriedades['quiz']['acertos'].append(int(parts[1]))
-                else:
-                    propriedades['quiz']['erros'].append(int(parts[1]))
+            else:
+                # Verifique se a coleção existe, se não, crie-a
+                colecoes = progresso_usuario.get("progresso", {}).get("colecoes", [])
+                colecao_existente = False
+                for colecao in colecoes:
+                    if colecao["nome"] == self.colecao:
+                        colecao_existente = True
+                        break
+                    
+                if not colecao_existente:
+                    progresso_usuario["progresso"]["colecoes"].append({
+                        'nome': self.colecao,
+                        'trilhas': []
+                    })
 
-            elif parts[0] == 'validacao_pratica':
-                if len(parts) != 2:
-                    return "Validacao pratica espera-se: 'validacao_pratica/<bool>'"
-                # Verifica se a entrada contém a informação de acerto ou erro
-                if parts[1].lower() == 'true':
-                    propriedades['validacao_pratica']['acertos'].append(bool(parts[1]))
-                else:
-                    propriedades['validacao_pratica']['erros'].append(bool(parts[1]))
-    
-            elif parts[0] == 'ar':
-                if len(parts) != 2:
-                    return "AR pratica espera-se: 'ar/<bool>'"
-                # Verifica se a entrada contém a informação de acerto ou erro
-                if parts[1].lower() == 'true':
-                    propriedades['ar']['acertos'].append(bool(parts[1]))
-                else:
-                    propriedades['ar']['erros'].append(bool(parts[1]))
-    
-            elif parts[0] == 'teoria':
-                if len(parts) != 2:
-                    return "Teoria pratica espera-se: 'teoria/<bool>'"
-                # Verifica se a entrada contém a informação de acerto ou erro
-                if parts[1].lower() == 'true':
-                    propriedades['teoria']['acertos'].append(bool(parts[1]))
-                else:
-                    propriedades['teoria']['erros'].append(bool(parts[1]))
-    
+            # Dados de exemplo em formato JSON para uma nova trilha
+            nova_trilha = {
+                "nome": self.nome,
+                "quiz": [],
+                "teoria": '',
+                "atividade_pratica": ''
+            }
+
+            # Adicione a nova trilha à coleção existente (ou crie a coleção se não existir)
+            for colecao in progresso_usuario["progresso"]["colecoes"]:
+                if colecao["nome"] == self.colecao:
+                    colecao["trilhas"].append(nova_trilha)
+                    break
+                
             # Atualize ou insira o documento de progresso no banco de dados
             mongoDB.Progresso.update_one(
                 {"usuario": usuario},
                 {"$set": {"progresso": progresso_usuario["progresso"]}},
                 upsert=True  # Insere um novo documento se não existir
-            )
-            return False
+        )
+
         except Exception as e:
             erro_msg("Erro ao sincronizar progresso para o usuário", e)
-            return e 
-    
+
+    def setprogresso(self, usuario_email, elemento):
+        try:
+            # Variáveis fornecidas
+            email = usuario_email
+            nome_da_colecao = self.colecao
+            nome_da_trilha = self.nome
+
+            elemento_split = elemento.split('/')
+            atualizacao = {}
+
+            if len(elemento_split) == 3 and elemento_split[0] == 'quiz':
+                numero_do_quiz = int(elemento_split[1])
+                if elemento_split[2] == 'true':
+                    novo_progresso_quiz = "Concluído"
+                else:
+                    novo_progresso_quiz = "Errado"
+                atualizacao = {
+                    '$set': {
+                        f'progresso.colecoes.$[colecao].trilhas.$[trilha].quiz.{numero_do_quiz}': novo_progresso_quiz,
+                    },
+                }
+
+            elif len(elemento_split) == 2 and elemento_split[0] == 'teoria':
+                if elemento_split[1] == 'true':
+                    novo_progresso_teoria = "Concluído"
+                else:
+                    novo_progresso_teoria = "Inconcluído"
+                atualizacao = {
+                    '$set': {
+                        f'progresso.colecoes.$[colecao].trilhas.$[trilha].teoria': novo_progresso_teoria,
+                    }
+                }
+
+            elif len(elemento_split) == 2 and elemento_split[0] == 'validacao_pratica':
+                numero_do_quiz = elemento_split[1]
+                if elemento_split[1] == 'true':
+                    novo_progresso_pratica = "Concluído"
+                else:
+                    novo_progresso_pratica = "Inconcluído"
+                atualizacao = {
+                    '$set': {
+                        f'progresso.colecoes.$[colecao].trilhas.$[trilha].atividade_pratica': novo_progresso_pratica,
+                    }
+                }
+
+            query = {'usuario':email}
+
+            # Opções para filtrar os documentos corretos e criar a coleção se não existir
+            opcoes = [
+                {'colecao.nome': nome_da_colecao},
+                {'trilha.nome': nome_da_trilha}
+            ]
+
+            # Atualizar o documento no MongoDB
+            x = mongoDB.Progresso.update_one(query, atualizacao, array_filters=opcoes, upsert=True)
+
+        except Exception as e:
+            erro_msg("Erro ao sincronizar progresso no db", e)
+            return e
 
 def load_trilha_por_colecao_nome(turma, colecao, nome):
     try:

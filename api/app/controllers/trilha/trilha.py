@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 import re
 from app.models.userModel import *
 from app.models.trilhaModel import *
+from app.models.gerarRelatorio import *
 from app.controllers import authenticate
 from app.controllers.mensagens import erro_msg, normal_msg
 import json
@@ -66,7 +67,6 @@ def cadastrartrilha():
             response['erro'] = str(e)
             return Response(json.dumps(response), status=400, mimetype="application/json")
 
-
     except Exception as e:
         response['create'] = False
         response['Retorno'] = 'Parametros invalidos ou ausentes'         
@@ -81,7 +81,6 @@ def cadastrartrilha():
                 trilha.syncpermissoes(usuario=usuario, habilitado=False)
             else:
                 trilha.syncpermissoes(usuario=usuario, habilitado=True)
-            
             trilha.syncprogresso(usuario=usuario)
         
         response['create']=True
@@ -95,180 +94,6 @@ def cadastrartrilha():
         response['erro'] = str(e)
         erro_msg('Erro ao cadastrar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
-
-
-@app.route('/listar_colecoes', methods=['GET'])
-def listar_colecoes():
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    colecoes = buscar_nomes_colecoes_por_turma_com_imagem(turma=current_user.turma)
-    return Response(json.dumps({'busca':True, 'colecoes':colecoes}), status=200, mimetype="application/json")    
-
-
-@app.route('/buscartrilha', methods=['POST'])
-def buscartrilha():
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    try:
-        response = {}
-        body = request.get_json()
-        colecao = body['colecao']
-        nome = body['trilha']
-
-    except Exception as e:
-        response['load'] = False
-        response['Retorno'] = 'Parametros invalidos ou ausentes'         
-        response['erro'] = str(e)
-        return Response(json.dumps(response), status=400, mimetype="application/json")
-
-    try:        
-        trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
-        if nome in trilhas:
-            trilha = trilhas[nome]
-            return Response(json.dumps({'load':True, 'trilha':trilha}), status=200, mimetype="application/json")
-        else:
-            response = {
-                'load':False,
-                'Retorno':'Trilhas não encontrada'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json")
-        
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar trilha'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar trilha',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-
-
-@app.route('/listartrilha_por_colecao/<colecao>', methods=['GET'])
-def buscartrilha_por_colecao(colecao):
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    try:
-        response = {}
-
-    except Exception as e:
-        response['load'] = False
-        response['Retorno'] = 'Parametros invalidos ou ausentes'         
-        response['erro'] = str(e)
-        return Response(json.dumps(response), status=400, mimetype="application/json")
-
-    try:        
-        trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
-        if len(trilhas) > 0:
-            return Response(json.dumps({'load':True, 'trilhas':trilhas}), status=200, mimetype="application/json")
-        else:
-            response = {
-                'load':False,
-                'Retorno':'Trilhas não encontrada'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json") 
-       
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar trilha'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar trilha',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-    
-
-@app.route('/listartrilha_por_colecao_permitida/<colecao>', methods=['GET'])
-def listartrilha_por_colecao_permitida(colecao):
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    try:
-        response = {}
-        body = request.get_json()
-        colecao = body['colecao']
-
-    except Exception as e:
-        response['load'] = False
-        response['Retorno'] = 'Parametros invalidos ou ausentes'         
-        response['erro'] = str(e)
-        return Response(json.dumps(response), status=400, mimetype="application/json")
-
-    try:
-        trilhas_com_permissao = []
-        usuarios = load_permissoes_por_colecao(turma=current_user.turma, colecao=colecao)
-        for usuario in usuarios:
-            email = usuario['usuario']
-            permissoes = usuario['permissoes'][current_user.turma][colecao]
-            print(permissoes)
-            
-            trilha = {
-                'usuario': email,
-                'permissao': permissoes
-            }
-            if trilha['usuario'] == current_user.email:
-                trilhas_com_permissao.append(trilha)
-
-        if len(trilhas_com_permissao) > 0:
-            return Response(json.dumps({'load': True, 'trilhas': trilhas_com_permissao}), status=200, mimetype="application/json")
-        else:
-            response = {
-                'load': False,
-                'Retorno': 'Trilhas não encontradas'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json") 
-       
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar trilha'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar trilha',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-
-@app.route('/carregarquiz', methods=['POST'])
-def carregarquiz():
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-    
-    try:
-        response = {}
-        body = request.get_json()
-        colecao = body['colecao']
-        nome = body['trilha']
-
-    except Exception as e:
-        response['load'] = False
-        response['Retorno'] = 'Parametros invalidos ou ausentes'         
-        response['erro'] = str(e)
-        return Response(json.dumps(response), status=400, mimetype="application/json")
-
-    try:        
-        trilhas = load_trilhas_por_colecao(turma=current_user.turma, colecao=colecao)
-        if nome in trilhas:
-            trilha = trilhas[nome]
-            quiz = trilha['options']['quiz']
-            return Response(json.dumps({'load':True, 'quiz':quiz}), status=200, mimetype="application/json")
-        else:
-            response = {
-                'load':False,
-                'Retorno':'Quiz não encontrado'
-            }
-            return Response(json.dumps(response), status=400, mimetype="application/json")
-        
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar quiz'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar quiz',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-    
 
 @app.route('/verifiacarquiz', methods=['POST'])
 def verifiacarquiz():
@@ -323,8 +148,7 @@ def verifiacarquiz():
         response['Retorno'] = 'Erro ao buscar quiz'         
         response['erro'] = str(e)
         erro_msg('Erro ao verificar quiz',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-    
+        return Response(json.dumps(response), status=500, mimetype="application/json")   
 
 @app.route('/cadastrarprogresso', methods=['POST'])
 def cadastrarprogresso():
@@ -354,7 +178,7 @@ def cadastrarprogresso():
             response['Retorno'] = 'Essa trilha nao existe'
             return Response(json.dumps(response), status=400, mimetype="application/json") 
         
-        x = trilha_obj.setprogresso(usuario=current_user.email, elemento=elemento)
+        x = trilha_obj.setprogresso(usuario_email=current_user.email, elemento=elemento)
         if not x:
             response['set']=True
             return Response(json.dumps(response), status=200, mimetype="application/json")
@@ -365,9 +189,9 @@ def cadastrarprogresso():
     except Exception as e:
         response = {}
         response['set'] = False
-        response['Retorno'] = 'Erro ao setar permissões'         
+        response['Retorno'] = 'Erro ao cadastrar progresso'         
         response['erro'] = str(e)
-        erro_msg('Erro ao registrar progresso',e)
+        erro_msg('Erro ao cadastrar progresso',e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
 
 @app.route('/verificarmedidas', methods=['POST'])
@@ -422,9 +246,7 @@ def verificarmedidas():
                 esperado = validacao['valor_esperado']
                 valor_gab, escala_gab = separar_valor_escala(esperado)
                 valor_gab, escala_gab = converte_para_SI(valor=valor_gab, unidade=escala_gab)
-                print(valor_gab, escala_gab)
                 medida_body, escala_body = converte_para_SI(valor=int(medida_body), unidade=escala_body) 
-                print(medida_body, escala_body)
 
                 if medida_body >= (valor_gab-10*valor_gab/100) and medida_body <= (valor_gab+10*valor_gab/100):
                     response = {
@@ -466,37 +288,6 @@ def verificarmedidas():
         erro_msg('Erro ao buscar trilha',e)
         return Response(json.dumps(response), status=500, mimetype="application/json")
 
-
-@app.route('/verificarprogresso_turma', methods=['GET'])
-def verificarprogresso_turma():
-    auth = authenticate('log')
-    if auth:
-        return Response(json.dumps(auth), status=401, mimetype="application/json")
-
-    try:
-        response = {}
-        lista_permissoes = {}
-        usuarios = buscar_usuarios_por_turma(current_user.turma)
-        
-        for usuario in usuarios:
-            progresso_user = buscar_progresso_do_usuario(usuario['email'])
-            lista_permissoes[usuario['email']] = progresso_user
-
-        response = {
-            'load':True,
-            'progressos':lista_permissoes
-        }
-        return Response(json.dumps(response), status=200, mimetype="application/json")
-        
-    except Exception as e:
-        response = {}
-        response['load'] = False
-        response['Retorno'] = 'Erro ao buscar progressos'         
-        response['erro'] = str(e)
-        erro_msg('Erro ao buscar progressos',e)
-        return Response(json.dumps(response), status=500, mimetype="application/json")
-    
-
 @app.route('/deletar_trilha', methods=['POST'])
 def deletar_trilha():
     auth = authenticate('professor')
@@ -530,3 +321,81 @@ def deletar_trilha():
         response['erro'] = str(e)
         erro_msg('Elemento nao encontrado ao deletar trilha',e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
+    
+@app.route('/gerar_relatorio', methods=['POST'])
+def gerar_relatorio():
+    auth = authenticate('professor')
+    if auth:
+        return Response(json.dumps(auth), status=401, mimetype="application/json")
+    
+    # Dados de exemplo em formato JSON
+    response = {}
+    body = request.get_json()
+    try:
+        email_aluno = body['email_aluno']
+        if 'send' in body and body['send'] == True:
+            e_para_enviar = True
+        else:
+            e_para_enviar = False
+
+    except Exception as e:
+        response['create'] = False
+        response['Retorno'] = 'Parametros invalidos ou ausentes'         
+        response['erro'] = str(e)
+        return Response(json.dumps(response), status=400, mimetype="application/json")
+    
+    try:
+        aluno = buscar_email(email_aluno)
+        progresso = buscar_progresso_do_usuario(email=email_aluno)
+        if not aluno or not progresso:
+            return Response(json.dumps({'send':False, 'Retorno':'Usuario nao existe'}), status=400, mimetype="application/json")
+
+        relatorio = RelatorioDeProgresso(aluno=aluno.nome, turma=aluno.turma, email=email_aluno)
+        relatorio.gerar_relatorio(data=progresso)
+        path = f'/static/reports/{email_aluno}.pdf'
+
+    except Exception as e:
+        response = {}
+        response['send'] = False
+        response['Retorno'] = 'Erro ao gerar relatorio'         
+        response['erro'] = str(e)
+        erro_msg('Erro ao gerar relatorio',e)
+        return Response(json.dumps(response), status=500, mimetype="application/json")
+    
+    try:
+        if 'email_professor' in body and e_para_enviar:
+            email_professor = body['email_professor']
+            relatorio.enviar_email_com_anexo(destinatario_email=email_professor)
+            response = {
+                'gen':True,
+                'send':True,
+                'email':email_professor,
+                'path':path
+            }
+        elif e_para_enviar:
+            relatorio.enviar_email_com_anexo(destinatario_email=current_user.email)
+            response = {                
+                'gen':True,
+                'send':True,
+                'email':current_user.email,
+                'path':path
+
+            }
+        else:
+            response = {                
+                'gen':True,
+                'send':False,
+                'email':current_user.email,
+                'path':path
+
+            }
+        return Response(json.dumps(response), status=200, mimetype="application/json")
+
+    except Exception as e:
+        response = {}
+        response['send'] = False
+        response['Retorno'] = 'Erro ao enviar email'         
+        response['erro'] = str(e)
+        erro_msg('Erro ao enviar email',e)
+        return Response(json.dumps(response), status=500, mimetype="application/json")
+       

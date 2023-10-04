@@ -8,5 +8,3 @@ MONGO_URI  = 'mongodb://localhost:27017/'
 #MONGO_URI = 'mongodb://debugduck:duckduckgo@mongodb:27017/'
 
 UPLOAD_FOLDER = 'api\\app\\static\\imgs'
-
-

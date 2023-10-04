@@ -25,3 +25,11 @@ def home_render():
         return redirect("/login")
 
     return render_template('home/index.html')
+
+@app.route('/build',  methods=['GET'])
+def build_trilha():
+    auth = authenticate("professor")
+    if auth:
+        return redirect("/login")
+
+    return render_template('src/index.html')

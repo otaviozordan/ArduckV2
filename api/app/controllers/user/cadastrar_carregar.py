@@ -150,3 +150,4 @@ def deletar_usuario():
         response['erro'] = str(e)
         erro_msg('Elemento nao encontrado ao deletar trilha',e)
         return Response(json.dumps(response), status=400, mimetype="application/json")
+    

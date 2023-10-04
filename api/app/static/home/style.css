@@ -876,3 +876,15 @@ html, body {
   overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
   margin-left: 50px;
 }
+
+/* Estilo personalizado para os ícones */
+.custom-icon-class {
+  background-color: #FFA500; /* Cor de fundo personalizada */
+  color: #fff; /* Cor do ícone */
+  border-radius: 50%; /* Borda circular para criar um círculo */
+  width: 40px; /* Largura personalizada */
+  height: 40px; /* Altura personalizada */
+  line-height: 40px; /* Centralizar o ícone verticalmente */
+  text-align: center; /* Centralizar o ícone horizontalmente */
+  font-size: 24px; /* Tamanho da fonte personalizado */
+}

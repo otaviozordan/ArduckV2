@@ -141,7 +141,7 @@ def buscar_progresso_do_usuario(email):
         if progresso_usuario:
             return progresso_usuario.get("progresso", {})
         else:
-            return {}
+            return False
     except Exception as e:
         erro_msg("Erro ao buscar progresso do usuário", e)
 

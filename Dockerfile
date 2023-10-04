@@ -7,7 +7,7 @@ WORKDIR /app
 # Copie o arquivo requirements.txt para o contêiner
 COPY requirements.txt .
 
-# Instale as dependências do projeto
+# Instale as dependencias no contêiner
 RUN pip install -r requirements.txt
 
 # Copie o restante do código do projeto para o contêiner

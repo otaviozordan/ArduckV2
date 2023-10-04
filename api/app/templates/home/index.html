@@ -6,7 +6,7 @@
   <title>ARduck - Admin Panel</title>
   <link rel='stylesheet' href='//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
   <link rel="stylesheet" href="{{ url_for('static', filename='home/style.css') }}">
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -120,8 +120,8 @@
             </div>
             <!-- Botões de ação (alterar nome, excluir usuário, verificar progresso) -->
             <div class="actions">
-              <button class="user-edit-btn" id="deleteUserBtn">Delete User</button>
-              <button class="user-edit-btn" id="checkProgressBtn">Check Progress</button>
+              <button class="user-edit-btn" id="deleteUserBtn">Deletar Usuário</button>
+              <button class="user-edit-btn" id="checkProgressBtn">Verificar Progresso</button>
             </div>
             <div class="progresso"></div>
           </div>
@@ -143,7 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="page noflex" data-page="download">
+      <div class="page noflex" data-page="download" href="/builder">
 
       </div>
       <div class="page noflex" data-page="about">
