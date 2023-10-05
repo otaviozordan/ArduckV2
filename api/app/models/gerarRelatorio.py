@@ -13,14 +13,14 @@ class RelatorioDeProgresso():
         self.turma = turma
         self.email = email
         self.nome_do_arquivo = email  # O nome do arquivo será o email do usuário
-        self.rota_do_arquivo = os.path.join('server', 'api', 'app', 'static', 'reports', self.nome_do_arquivo)
+        self.rota_do_arquivo = os.path.join('api', 'app', 'static', 'reports', self.nome_do_arquivo)
 
     def gerar_relatorio(self, data):
         pdf_file = f"{self.rota_do_arquivo}.pdf"
         c = canvas.Canvas(pdf_file, pagesize=letter)
 
         # Carregue a imagem de fundo
-        imagem_de_fundo = "server\\api\\app\\static\\reports\\ARduck.png"
+        imagem_de_fundo = "api\\app\\static\\reports\\ARduck.png"
         c.drawImage(imagem_de_fundo, 400, 600, 100, 100)
 
         # Título do relatório
