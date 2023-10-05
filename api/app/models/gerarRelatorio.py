@@ -20,8 +20,8 @@ class RelatorioDeProgresso():
         c = canvas.Canvas(pdf_file, pagesize=letter)
 
         # Carregue a imagem de fundo
-        imagem_de_fundo = 'app\\static\\reports\\ARduck.png'
-        c.drawImage(imagem_de_fundo, 400, 600, 100, 100)
+        #imagem_de_fundo = 'app\\static\\reports\\ARduck.png'
+        #c.drawImage(imagem_de_fundo, 400, 600, 100, 100)
 
         # Título do relatório
         c.setFont("Helvetica", 16)
