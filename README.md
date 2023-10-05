@@ -35,7 +35,7 @@ Agradecemos às seguintes pessoas que estão contribuindo para este projeto:
   <tr>
     <td align="center">
       <a href="https://www.linkedin.com/in/otavio-zordan/">
-        <img src="https://github.com/otaviozordan/ARduck/mdimg/profile/Otavio.jfif" width="125px;" alt="Foto do Otávio"/><br>
+        <img src="https://github.com/otaviozordan/ARduck/blob/main/mdimg/profile/Otavio.jfif" width="125px;" alt="Foto do Otávio"/><br>
         <sub>
          <b><p>Otávio Zordan</p><p>(Backend Dev)</p><a href="https://github.com/otaviozordan"><h5>Acesse o meu perfil</h>
           </a>
@@ -45,7 +45,7 @@ Agradecemos às seguintes pessoas que estão contribuindo para este projeto:
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/kayque-amado-2689b8225/">
-        <img src="https://github.com/otaviozordan/ARduck/mdimg/profile/Kayque.jfif" width="125px;" alt="Foto do Kayque"/><br>
+        <img src="https://github.com/otaviozordan/ARduck/blob/main/mdimg/profile/Kayque.jfif" width="125px;" alt="Foto do Kayque"/><br>
         <sub>
           <b><p>Kayque Amado</p><p>(Frontend Dev)</p><a href="https://github.com/DreamkitteXz"><h5>Acesse o meu perfil</h>
          </a>
@@ -55,7 +55,7 @@ Agradecemos às seguintes pessoas que estão contribuindo para este projeto:
     </td>
     <td align="center">
       <a href="https://www.linkedin.com/in/athos-massafera-59b661223/">
-        <img src="https://github.com/otaviozordan/ARduck/mdimg/profile/Athos.jfif" width="125px;" alt="Foto de Athos"/><br>
+        <img src="https://github.com/otaviozordan/ARduck/blob/main/mdimg/profile/Athos.jfif" width="125px;" alt="Foto de Athos"/><br>
         <sub>
           <b><p>Athos Massafera</p><p>(AR Designer)</p><a href="https://github.com/AthosMBA18"><h5>Acesse o meu perfil</h>
         </a>
