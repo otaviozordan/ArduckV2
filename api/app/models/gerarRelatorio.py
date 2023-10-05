@@ -71,8 +71,8 @@ class RelatorioDeProgresso():
 
         smtp_server = 'smtp.outlook.com'  # Insira o servidor SMTP do seu provedor de email
         smtp_port = 587  # Porta SMTP padrão para TLS
-        smtp_username = 'otavio.zordan@outlook.com'  # Seu endereço de email
-        smtp_password = 'Marocas2'  # Sua senha de email
+        smtp_username = 'arduck.ete@outlook.com'  # Seu endereço de email
+        smtp_password = 'DebugDuck'  # Sua senha de email
 
         try:
             assunto = f'Relatório de progresso do usuário {self.aluno}'
