@@ -1,1 +1,50 @@
 [2023-10-04 20:31:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['mongodb:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:08:07] [INFO] Iniciando conexao -> Database(MongoClient(host=['mongodb:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:10:08] [INFO] Iniciando conexao -> Database(MongoClient(host=['mongodb:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:10:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:10:23] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:10:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:10:23] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:10:32] [ERRO] Erro ao gerar relatorio -> Cannot open resource "pp\staticeports\ARduck.png"
+[2023-10-04 21:10:45] [ERRO] Erro ao gerar relatorio -> Cannot open resource "pp\staticeports\ARduck.png"
+[2023-10-04 21:11:27] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:11:27] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:11:32] [ERRO] Erro ao gerar relatorio -> Cannot open resource "\app\static\reports\ARduck.png"
+[2023-10-04 21:21:24] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:21:24] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:21:28] [ERRO] Erro ao gerar relatorio -> Cannot open resource "app\static\reports\ARduck.png"
+[2023-10-04 21:22:55] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:22:55] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:23:01] [ERRO] Erro ao gerar relatorio -> Cannot open resource "app\staticeports\ARduck.png"
+[2023-10-04 21:24:11] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:24:11] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:24:13] [ERRO] Erro ao gerar relatorio -> Cannot open resource ".pp\staticeports\ARduck.png"
+[2023-10-04 21:24:55] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:24:55] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:25:05] [ERRO] Erro ao gerar relatorio -> Cannot open resource "static\reports\ARduck.png"
+[2023-10-04 21:25:18] [ERRO] Erro ao gerar relatorio -> Cannot open resource "static\reports\ARduck.png"
+[2023-10-04 21:26:11] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:26:11] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:26:50] [ERRO] Erro ao gerar relatorio -> Cannot open resource "static/reports/ARduck.png"
+[2023-10-04 21:28:23] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:28:23] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:28:29] [ERRO] Erro ao gerar relatorio -> Cannot open resource "serverpipp\staticeports\ARduck.png"
+[2023-10-04 21:28:53] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:28:53] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:28:58] [ERRO] Erro ao gerar relatorio -> Cannot open resource "server\api\app\static\reports\ARduck.png"
+[2023-10-04 21:31:57] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:31:57] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:31:58] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:31:58] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:34:32] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:34:32] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:34:32] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:34:32] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:36:25] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:36:25] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:37:00] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:37:00] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:37:48] [INFO] Iniciando conexao -> Database(MongoClient(host=['localhost:27017'], document_class=dict, tz_aware=False, connect=True), 'ARduck')
+[2023-10-04 21:37:48] [INFO] Banco conectado: -> ['Permissoes', 'Usuarios', 'Trilhas', 'Progresso']
+[2023-10-04 21:38:13] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
+[2023-10-04 21:38:18] [INFO] E-mail enviado para otavio.zordan@hotmail.com -> OK
